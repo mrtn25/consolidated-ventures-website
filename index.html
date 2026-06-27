@@ -83,7 +83,7 @@
   .hero{min-height:100vh;padding:196px 0 100px;position:relative;overflow:hidden}
   .hero-bg-img{
     position:absolute;inset:0;z-index:0;
-    background:url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1920&q=80') center 40%/cover no-repeat;
+    background:url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1920&q=80') center 50%/cover no-repeat;
   }
   .hero-bg-img::after{
     content:'';position:absolute;inset:0;
@@ -303,7 +303,7 @@
     <div class="wrap">
       <div class="model-head">
         <p class="eyebrow reveal">Das Modell</p>
-        <h2 class="serif reveal">Drei Bausteine, die sich gegenseitig verstärken.</h2>
+        <h2 class="serif reveal">So funktioniert's.</h2>
         <p class="reveal">Wir kaufen nicht nur. Wir bauen. Jeder Betrieb, den wir übernehmen, bringt KI, Talent und Daten mit, die das gesamte Portfolio stärken.</p>
       </div>
       <div class="model">
@@ -424,9 +424,9 @@
     <div class="wrap">
       <div class="branche-inner">
         <div class="branche-left">
-          <div class="tag reveal">Jetzt aktiv</div>
-          <h2 class="serif reveal">Garten & Landschaft</h2>
-          <p class="reveal">Wir suchen Gartenbau- und Landschaftspflegebetriebe, die übergeben werden wollen. Inhabergeführt, regional verwurzelt, mit einem eingespielten Team. Das sind die Betriebe, für die wir gemacht sind.</p>
+          <div class="tag reveal">Was wir suchen</div>
+          <h2 class="serif reveal">So sieht ein Betrieb aus, den wir übernehmen.</h2>
+          <p class="reveal">Inhabergeführt, regional verwurzelt, mit gesunden Zahlen und einem eingespielten Team. Derzeit kaufen wir in Garten & Landschaft.</p>
           <div class="branche-cta reveal">
             <a href="#kontakt" class="btn btn-primary">Meld dich jetzt</a>
           </div>
@@ -578,59 +578,81 @@ function setupCanvas(id){
 (function(){
   var s=setupCanvas('anim-talent');if(!s)return;
   var ctx=s.ctx,w=s.w,h=s.h,cx=w/2,cy=h/2;
-  var t=0,talents=[],outflows=[];
-  var INNER_R=8,HUB_R=18;
-  var companies=[{a:0,glow:0},{a:Math.PI*2/3,glow:0},{a:Math.PI*4/3,glow:0}];
+  var t=0,rotation=0;
+  var R=Math.min(w,h)*0.29;
+  var SPOKES=5;
+  var talents=[],pulses=[];
   var spawnTimer=0;
+  var nodeGlow=[];for(var _i=0;_i<SPOKES;_i++)nodeGlow.push(0);
+
   function spawnTalent(){
-    var x=cx+(Math.random()-0.5)*w*0.7;
-    talents.push({x:x,y:h+6,tx:cx,ty:cy,life:0,r:2.5+Math.random()});
+    var side=Math.floor(Math.random()*4),tx,ty;
+    if(side===0){tx=Math.random()*w;ty=-8;}
+    else if(side===1){tx=w+8;ty=Math.random()*h;}
+    else if(side===2){tx=Math.random()*w;ty=h+8;}
+    else{tx=-8;ty=Math.random()*h;}
+    talents.push({x:tx,y:ty,target:Math.floor(Math.random()*SPOKES),r:2.5,life:0});
   }
   spawnTalent();spawnTalent();
+
   function draw(){
-    t+=0.016;ctx.clearRect(0,0,w,h);
-    spawnTimer+=0.016;
-    if(spawnTimer>1.0){spawnTimer=0;spawnTalent();}
+    t+=0.016;rotation+=0.007;ctx.clearRect(0,0,w,h);
+    spawnTimer+=0.016;if(spawnTimer>1.3){spawnTimer=0;spawnTalent();}
+
+    // Outer guide ring (dashed)
+    ctx.save();ctx.beginPath();ctx.arc(cx,cy,R+14,0,Math.PI*2);
+    ctx.strokeStyle='rgba(242,240,234,0.04)';ctx.setLineDash([2,9]);ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);ctx.restore();
+
+    // Spokes & rim nodes (all rotate together)
+    for(var i=0;i<SPOKES;i++){
+      var a=rotation+(i/SPOKES)*Math.PI*2;
+      var nx=cx+Math.cos(a)*R,ny=cy+Math.sin(a)*R;
+      nodeGlow[i]=Math.max(0,nodeGlow[i]-0.022);
+      ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(nx,ny);
+      ctx.strokeStyle='rgba(242,240,234,0.09)';ctx.lineWidth=1;ctx.stroke();
+      var ng=nodeGlow[i];
+      if(ng>0.05){var hg=ctx.createRadialGradient(nx,ny,0,nx,ny,13);hg.addColorStop(0,'rgba(194,163,107,'+(ng*0.55)+')');hg.addColorStop(1,'rgba(194,163,107,0)');ctx.beginPath();ctx.arc(nx,ny,13,0,Math.PI*2);ctx.fillStyle=hg;ctx.fill();}
+      ctx.beginPath();ctx.arc(nx,ny,5,0,Math.PI*2);
+      ctx.fillStyle='rgba(194,163,107,'+(0.38+ng*0.52)+')';ctx.fill();
+      ctx.strokeStyle='rgba(194,163,107,'+(0.28+ng*0.42)+')';ctx.lineWidth=1;ctx.stroke();
+    }
+
+    // Rim circle
+    ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);
+    ctx.strokeStyle='rgba(242,240,234,0.13)';ctx.lineWidth=1.5;ctx.stroke();
+
+    // Motion arc (rotation highlight)
+    ctx.beginPath();ctx.arc(cx,cy,R,rotation,rotation+Math.PI*0.55);
+    ctx.strokeStyle='rgba(194,163,107,0.22)';ctx.lineWidth=3;ctx.stroke();
+
     // Hub
-    var hp=0.4+0.4*Math.sin(t*1.8);
-    var g=ctx.createRadialGradient(cx,cy,0,cx,cy,HUB_R+hp*6);
-    g.addColorStop(0,'rgba(194,163,107,'+(0.15+hp*0.1)+')');g.addColorStop(1,'rgba(194,163,107,0)');
-    ctx.beginPath();ctx.arc(cx,cy,HUB_R+hp*6,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-    ctx.beginPath();ctx.arc(cx,cy,HUB_R,0,Math.PI*2);
-    ctx.strokeStyle='rgba(194,163,107,'+(0.35+hp*0.35)+')';ctx.lineWidth=1.2;ctx.stroke();
-    // Inner company dots
-    companies.forEach(function(co){
-      var bx=cx+Math.cos(co.a+t*0.4)*INNER_R,by=cy+Math.sin(co.a+t*0.4)*INNER_R;
-      co.glow=Math.max(0,co.glow-0.018);
-      ctx.beginPath();ctx.arc(bx,by,2.5,0,Math.PI*2);
-      ctx.fillStyle='rgba(194,163,107,'+(0.35+co.glow*0.65)+')';ctx.fill();
-    });
-    // Incoming talents
+    var hp=0.5+0.5*Math.sin(t*2.5);
+    var hg2=ctx.createRadialGradient(cx,cy,0,cx,cy,13+hp*5);
+    hg2.addColorStop(0,'rgba(194,163,107,'+(0.3+hp*0.2)+')');hg2.addColorStop(1,'rgba(194,163,107,0)');
+    ctx.beginPath();ctx.arc(cx,cy,13+hp*5,0,Math.PI*2);ctx.fillStyle=hg2;ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,7,0,Math.PI*2);
+    ctx.fillStyle='rgba(194,163,107,'+(0.45+hp*0.4)+')';ctx.fill();
+
+    // Talent dots converging on rim nodes
     talents=talents.filter(function(tal){
       tal.life+=0.016;
-      var dx=cx-tal.x,dy=cy-tal.y,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<80){tal.x+=dx*0.05;tal.y+=dy*0.04;}else{tal.y-=1.2+tal.life*0.5;}
-      if(dist<HUB_R+3){
-        var co=companies[Math.floor(Math.random()*companies.length)];co.glow=1;
-        // spawn outflow
-        var oa=(Math.random()*Math.PI*2);
-        outflows.push({x:cx,y:cy,a:oa,dist:0,life:0});
-        return false;
-      }
-      var alpha=Math.min(1,tal.life*2)*(dist/(h));
+      var a2=rotation+(tal.target/SPOKES)*Math.PI*2;
+      var tx2=cx+Math.cos(a2)*R,ty2=cy+Math.sin(a2)*R;
+      var dx=tx2-tal.x,dy=ty2-tal.y,dist=Math.sqrt(dx*dx+dy*dy);
+      tal.x+=dx*0.045;tal.y+=dy*0.045;
+      if(dist<7){nodeGlow[tal.target]=1;pulses.push({x:tx2,y:ty2,r:0});return false;}
+      var alpha=Math.min(1,tal.life*3)*Math.min(1,dist/40);
       ctx.beginPath();ctx.arc(tal.x,tal.y,tal.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(242,240,234,'+(alpha*0.6)+')';ctx.fill();
-      return tal.life<8;
+      ctx.fillStyle='rgba(242,240,234,'+alpha.toFixed(3)+')';ctx.fill();
+      return tal.life<14;
     });
-    // Outflows (skills back to companies)
-    outflows=outflows.filter(function(of){
-      of.life+=0.016;of.dist+=1.4;
-      var ox=cx+Math.cos(of.a)*of.dist,oy=cy+Math.sin(of.a)*of.dist;
-      var alpha=(1-of.dist/60)*0.7;
-      if(alpha<=0)return false;
-      ctx.beginPath();ctx.arc(ox,oy,2,0,Math.PI*2);
-      ctx.fillStyle='rgba(194,163,107,'+alpha.toFixed(3)+')';ctx.fill();
-      return of.dist<60;
+
+    // Arrival pulses
+    pulses=pulses.filter(function(p){
+      p.r+=1.6;var a3=Math.max(0,0.8*(1-p.r/24));if(a3<=0)return false;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.strokeStyle='rgba(194,163,107,'+a3.toFixed(3)+')';ctx.lineWidth=1;ctx.stroke();
+      return p.r<24;
     });
     requestAnimationFrame(draw);
   }
@@ -641,77 +663,120 @@ function setupCanvas(id){
 (function(){
   var s=setupCanvas('anim-data');if(!s)return;
   var ctx=s.ctx,w=s.w,h=s.h;
-  var t=0,dataPoints=[],flows=[];
-  // Worker path (simple patrol)
-  var path=[{x:w*0.22,y:h*0.35},{x:w*0.7,y:h*0.3},{x:w*0.72,y:h*0.72},{x:w*0.25,y:h*0.7}];
-  var pathIdx=0,pathT=0;
-  var wx=path[0].x,wy=path[0].y;
-  var scanTimer=0,cx2=w/2,cy2=h/2;
-  // Room outline points (simple rectangle with some interior details)
-  var roomPts=[[w*.12,h*.18],[w*.88,h*.18],[w*.88,h*.84],[w*.12,h*.84]];
+  var t=0,dataPoints=[];
+  var scanT=0;
+  var pcx=w/2,pcy=h*0.1; // processing node at top center
+
+  // Perspective room: vanishing point at upper center
+  var vx=w/2,vy=h*0.22;
+  var fl={x:w*0.05,y:h*0.76},fr={x:w*0.95,y:h*0.76};
+  var bl={x:vx-w*0.19,y:vy},br={x:vx+w*0.19,y:vy};
+  var btl={x:bl.x,y:vy-h*0.14},btr={x:br.x,y:vy-h*0.14};
+  var tl={x:fl.x,y:fl.y-h*0.35},tr={x:fr.x,y:fr.y-h*0.35};
+
+  function line(ax,ay,bx2,by2,col,lw){
+    ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx2,by2);
+    ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.stroke();
+  }
+
+  function drawRoom(){
+    ctx.lineCap='butt';
+    var rc='rgba(242,240,234,0.1)';var rl=0.8;
+    line(fl.x,fl.y,fr.x,fr.y,rc,rl);          // front floor edge
+    line(fl.x,fl.y,bl.x,bl.y,rc,rl);          // left floor edge
+    line(fr.x,fr.y,br.x,br.y,rc,rl);          // right floor edge
+    line(bl.x,bl.y,br.x,br.y,rc,rl);          // back floor edge
+    line(bl.x,bl.y,btl.x,btl.y,rc,rl);        // back wall left
+    line(br.x,br.y,btr.x,btr.y,rc,rl);        // back wall right
+    line(btl.x,btl.y,btr.x,btr.y,rc,rl);      // back wall top
+    line(fl.x,fl.y,tl.x,tl.y,rc,rl);          // left wall front
+    line(tl.x,tl.y,btl.x,btl.y,'rgba(242,240,234,0.06)',rl); // left wall top
+    line(fr.x,fr.y,tr.x,tr.y,rc,rl);          // right wall front
+    line(tr.x,tr.y,btr.x,btr.y,'rgba(242,240,234,0.06)',rl); // right wall top
+    line(tl.x,tl.y,tr.x,tr.y,'rgba(242,240,234,0.04)',rl);   // ceiling
+    // floor grid
+    ctx.strokeStyle='rgba(242,240,234,0.04)';ctx.lineWidth=0.5;
+    for(var g=1;g<4;g++){
+      var gp=g/4;
+      line(fl.x+(bl.x-fl.x)*gp,fl.y+(bl.y-fl.y)*gp,fr.x+(br.x-fr.x)*gp,fr.y+(br.y-fr.y)*gp,'rgba(242,240,234,0.04)',0.5);
+    }
+  }
+
+  // Two hands from POV (user looking down at their own hands working)
+  function drawHand(x,y,flip){
+    ctx.save();ctx.translate(x,y);if(flip)ctx.scale(-1,1);
+    var fc='rgba(242,240,234,0.22)',fs='rgba(242,240,234,0.35)';
+    // Palm
+    ctx.beginPath();ctx.ellipse(0,0,13,10,0.12,0,Math.PI*2);
+    ctx.fillStyle=fc;ctx.fill();
+    ctx.strokeStyle=fs;ctx.lineWidth=0.8;ctx.stroke();
+    // Fingers
+    var fpos=[[-9,-10],[-3,-13],[3,-13],[9,-10]];
+    var flen=[13,17,17,13];
+    fpos.forEach(function(fp,fi){
+      ctx.beginPath();ctx.moveTo(fp[0],fp[1]);
+      ctx.lineTo(fp[0]*1.1,fp[1]-flen[fi]);
+      ctx.strokeStyle=fc;ctx.lineWidth=5;ctx.lineCap='round';ctx.stroke();
+    });
+    // Thumb
+    ctx.beginPath();ctx.moveTo(-12,2);ctx.lineTo(-22,11);
+    ctx.strokeStyle=fc;ctx.lineWidth=5;ctx.lineCap='round';ctx.stroke();
+    // Tool suggestion (small line at fingertips = working)
+    ctx.beginPath();ctx.moveTo(-3,-13-17);ctx.lineTo(-3,-13-24);
+    ctx.strokeStyle='rgba(194,163,107,0.35)';ctx.lineWidth=2;ctx.lineCap='round';ctx.stroke();
+    ctx.restore();
+  }
 
   function draw(){
     t+=0.016;ctx.clearRect(0,0,w,h);
-    // Room
-    ctx.beginPath();ctx.rect(w*.12,h*.18,w*.76,h*.66);
-    ctx.strokeStyle='rgba(242,240,234,0.07)';ctx.lineWidth=1;ctx.stroke();
-    // Interior grid lines (faint)
-    ctx.strokeStyle='rgba(242,240,234,0.03)';ctx.lineWidth=0.5;
-    for(var gx=w*.12+w*.76/4;gx<w*.88;gx+=w*.76/4){ctx.beginPath();ctx.moveTo(gx,h*.18);ctx.lineTo(gx,h*.84);ctx.stroke();}
-    ctx.beginPath();ctx.moveTo(w*.12,h*.18+h*.66/2);ctx.lineTo(w*.88,h*.18+h*.66/2);ctx.stroke();
+    drawRoom();
 
-    // Move worker along path
-    var nextPt=path[(pathIdx+1)%path.length];
-    var dx2=nextPt.x-wx,dy2=nextPt.y-wy,dist=Math.sqrt(dx2*dx2+dy2*dy2);
-    var speed=0.8;
-    if(dist<speed){wx=nextPt.x;wy=nextPt.y;pathIdx=(pathIdx+1)%path.length;}
-    else{wx+=dx2/dist*speed;wy+=dy2/dist*speed;}
+    // Sweeping scan line (simulates glasses recording)
+    scanT+=0.016;
+    var scanX=w*0.1+Math.abs(Math.sin(scanT*0.45))*(w*0.8);
+    var sg=ctx.createLinearGradient(scanX,0,scanX,h*0.76);
+    sg.addColorStop(0,'rgba(194,163,107,0)');
+    sg.addColorStop(0.15,'rgba(194,163,107,0.28)');
+    sg.addColorStop(0.75,'rgba(194,163,107,0.14)');
+    sg.addColorStop(1,'rgba(194,163,107,0)');
+    ctx.beginPath();ctx.moveTo(scanX,0);ctx.lineTo(scanX,h*0.76);
+    ctx.strokeStyle=sg;ctx.lineWidth=1.2;ctx.lineCap='butt';ctx.stroke();
 
-    // Scan pulse
-    scanTimer+=0.016;
-    if(scanTimer>1.2){
-      scanTimer=0;
-      // Add data point near worker in random direction
-      var sa=Math.random()*Math.PI*2,sd=30+Math.random()*25;
-      dataPoints.push({x:wx+Math.cos(sa)*sd,y:wy+Math.sin(sa)*sd,life:0,flowing:false});
-    }
-    // Draw scan ring
-    var scanPhase=(scanTimer/1.2);
-    var scanR=scanPhase*45;
-    var scanAlpha=(1-scanPhase)*0.3;
-    if(scanAlpha>0){
-      ctx.beginPath();ctx.arc(wx,wy,scanR,0,Math.PI*2);
-      ctx.strokeStyle='rgba(194,163,107,'+scanAlpha.toFixed(3)+')';ctx.lineWidth=1;ctx.stroke();
+    // Spawn data point where scan hits room surfaces
+    if(Math.random()<0.055){
+      dataPoints.push({
+        x:scanX+(Math.random()-0.5)*18,
+        y:h*0.08+Math.random()*h*0.58,
+        life:0,flowing:false
+      });
     }
 
-    // Data points
+    // Data points: appear, then flow to processing node
     dataPoints=dataPoints.filter(function(dp){
       dp.life+=0.016;
-      if(dp.life>1&&!dp.flowing){dp.flowing=true;}
+      if(dp.life>1.4&&!dp.flowing)dp.flowing=true;
       if(dp.flowing){
-        var ddx=cx2-dp.x,ddy=cy2-dp.y,ddist=Math.sqrt(ddx*ddx+ddy*ddy);
-        dp.x+=ddx/ddist*1.5;dp.y+=ddy/ddist*1.5;
-        if(ddist<8)return false;
+        dp.x+=(pcx-dp.x)*0.05;dp.y+=(pcy-dp.y)*0.05;
+        if(Math.abs(dp.x-pcx)<5&&Math.abs(dp.y-pcy)<5)return false;
       }
-      var a=dp.flowing?0.5*(1-dp.life*0.1):Math.min(1,dp.life*4)*0.6;
-      ctx.beginPath();ctx.arc(dp.x,dp.y,2,0,Math.PI*2);
-      ctx.fillStyle='rgba(194,163,107,'+Math.max(0,a).toFixed(3)+')';ctx.fill();
-      return dp.life<6;
+      var a=dp.flowing?Math.min(0.65,0.65*(1-Math.max(0,dp.life-1.4)/4)):Math.min(0.65,dp.life*5);
+      ctx.beginPath();ctx.arc(dp.x,dp.y,1.5,0,Math.PI*2);
+      ctx.fillStyle='rgba(194,163,107,'+a.toFixed(3)+')';ctx.fill();
+      return dp.life<7;
     });
 
-    // Processing node (center of canvas)
-    var np=0.5+0.5*Math.sin(t*2.5);
-    ctx.beginPath();ctx.arc(cx2,cy2,6+np*2,0,Math.PI*2);
-    ctx.strokeStyle='rgba(194,163,107,'+(0.3+np*0.3)+')';ctx.lineWidth=1;ctx.stroke();
-    ctx.beginPath();ctx.arc(cx2,cy2,3,0,Math.PI*2);
-    ctx.fillStyle='rgba(194,163,107,0.6)';ctx.fill();
+    // Processing node (data collector, top center)
+    var np=0.4+0.4*Math.sin(t*3);
+    var ng=ctx.createRadialGradient(pcx,pcy,0,pcx,pcy,10+np*4);
+    ng.addColorStop(0,'rgba(194,163,107,'+(0.4+np*0.3)+')');ng.addColorStop(1,'rgba(194,163,107,0)');
+    ctx.beginPath();ctx.arc(pcx,pcy,10+np*4,0,Math.PI*2);ctx.fillStyle=ng;ctx.fill();
+    ctx.beginPath();ctx.arc(pcx,pcy,4,0,Math.PI*2);
+    ctx.fillStyle='rgba(194,163,107,0.75)';ctx.fill();
 
-    // Worker dot
-    ctx.beginPath();ctx.arc(wx,wy,5,0,Math.PI*2);
-    ctx.fillStyle='rgba(242,240,234,0.75)';ctx.fill();
-    // Glasses indicator (small arc above worker)
-    ctx.beginPath();ctx.arc(wx,wy-6,3.5,Math.PI,0);
-    ctx.strokeStyle='rgba(194,163,107,0.55)';ctx.lineWidth=1;ctx.stroke();
+    // Hands (POV, bottom center – as if looking down at your own hands working)
+    var bob=Math.sin(t*1.6)*3;
+    drawHand(w*0.32+bob,h*0.71,false);
+    drawHand(w*0.68-bob,h*0.71,true);
 
     requestAnimationFrame(draw);
   }
