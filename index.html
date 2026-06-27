@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Consolidated Ventures</title>
-<meta name="description" content="Consolidated Ventures erwirbt Serviceunternehmen in fragmentierten Märkten, entwickelt neue Nachfolger und macht ihre Abläufe mit KI und Betriebsdaten skalierbar." />
+<meta name="description" content="Consolidated Ventures kauft Serviceunternehmen von Inhabern, die übergeben wollen – und entwickelt sie mit KI, Betriebsdaten und einem echten Talentkanal weiter." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0c'/%3E%3Ctext x='6' y='23' font-family='Georgia,serif' font-size='18' fill='%23f2f0ea'%3EC%3C/text%3E%3Ctext x='17' y='23' font-family='Georgia,serif' font-size='18' fill='%23c2a36b'%3EV%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,28 +43,71 @@
   }
   main{position:relative;z-index:2}
 
-  /* nav */
-  header{position:fixed;top:0;left:0;right:0;z-index:10;
-    backdrop-filter:saturate(140%) blur(8px);
-    transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
-  header.scrolled{background:rgba(10,10,12,.72);border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  /* ── PILL NAV ────────────────────────────── */
+  header{
+    position:fixed;
+    top:0; left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    z-index:10;
+    border:1px solid transparent;
+    border-radius:0;
+    backdrop-filter:saturate(140%) blur(10px);
+    transition:
+      top .5s cubic-bezier(.2,.6,.2,1),
+      width .5s cubic-bezier(.2,.6,.2,1),
+      border-radius .5s cubic-bezier(.2,.6,.2,1),
+      background .35s ease,
+      border-color .35s ease;
+  }
+  header.pill{
+    top:14px;
+    width:min(580px, calc(100% - 32px));
+    border-radius:999px;
+    background:rgba(10,10,12,.9);
+    border-color:rgba(255,255,255,.14);
+    backdrop-filter:saturate(180%) blur(22px);
+  }
+  header.scrolled:not(.pill){
+    background:rgba(10,10,12,.72);
+    border-bottom-color:var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    height:72px;
+    transition:height .5s cubic-bezier(.2,.6,.2,1);
+  }
+  header.pill .nav{height:52px}
+  header.pill .wrap{max-width:none;padding:0 22px}
+
   .brand{display:flex;align-items:baseline;gap:10px}
   .logo{font-family:"Fraunces",Georgia,serif;font-size:23px;letter-spacing:.02em}
   .logo b{font-weight:500}.logo .v{color:var(--gold)}
-  .brand span{font-size:13px;color:var(--muted);letter-spacing:.04em}
-  .links{display:flex;gap:34px;align-items:center}
+  .brand-label{
+    font-size:13px;color:var(--muted);letter-spacing:.04em;
+    overflow:hidden;max-width:200px;white-space:nowrap;
+    transition:max-width .4s cubic-bezier(.2,.6,.2,1), opacity .3s ease;
+  }
+  header.pill .brand-label{max-width:0;opacity:0}
+
+  .links{display:flex;gap:34px;align-items:center;transition:gap .5s cubic-bezier(.2,.6,.2,1)}
+  header.pill .links{gap:20px}
   .links a{font-size:14.5px;color:var(--muted);transition:color .2s}
   .links a:hover{color:var(--fg)}
-  .nav-cta{color:var(--fg)!important;border:1px solid var(--line);padding:9px 18px;border-radius:999px;transition:border-color .2s,background .2s}
+  .nav-cta{
+    color:var(--fg)!important;border:1px solid var(--line);
+    padding:9px 18px;border-radius:999px;
+    transition:border-color .2s,background .2s,padding .5s cubic-bezier(.2,.6,.2,1);
+  }
+  header.pill .nav-cta{padding:7px 15px}
   .nav-cta:hover{border-color:rgba(194,163,107,.5);background:rgba(194,163,107,.06)}
   @media(max-width:680px){.links a:not(.nav-cta){display:none}}
 
-  /* hero */
+  /* ── HERO ────────────────────────────────── */
   .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 90px}
-  .hero h1{font-size:clamp(40px,6.4vw,78px);line-height:1.04;font-weight:300;max-width:14ch;margin:26px 0 0}
+  .hero h1{font-size:clamp(38px,6.2vw,76px);line-height:1.04;font-weight:300;max-width:15ch;margin:26px 0 0}
   .hero h1 em{font-style:italic;color:var(--gold)}
-  .hero p.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:54ch;margin:30px 0 0;font-weight:400}
+  .hero p.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:52ch;margin:30px 0 0;font-weight:400}
   .hero .actions{display:flex;gap:18px;align-items:center;margin-top:40px;flex-wrap:wrap}
   .btn{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500;padding:14px 26px;border-radius:999px;transition:transform .2s,background .2s,border-color .2s}
   .btn-primary{background:var(--fg);color:#0a0a0c}
@@ -74,46 +117,82 @@
   .btn-ghost .arrow{transition:transform .2s}
   .btn-ghost:hover .arrow{transform:translateX(4px)}
 
-  /* mission band */
+  /* ── MISSION BAND ────────────────────────── */
   .mission{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:64px 0}
-  .mission p{font-size:clamp(24px,3.6vw,40px);line-height:1.3;font-weight:300;max-width:24ch}
+  .mission p{font-size:clamp(22px,3.4vw,38px);line-height:1.3;font-weight:300;max-width:26ch}
   .mission .dot{color:var(--gold)}
 
-  /* section base */
+  /* ── STATS BAND ──────────────────────────── */
+  .stats-band{padding:96px 0;border-bottom:1px solid var(--line)}
+  .stats-intro{max-width:52ch;margin-bottom:60px}
+  .stats-intro h2{font-size:clamp(26px,3.4vw,42px);font-weight:300;line-height:1.15;margin-top:16px}
+  .stats-intro p{color:var(--muted);margin-top:16px;font-size:17px}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 2px}
+  .stat-item{padding:36px 0 36px;border-top:1px solid var(--line)}
+  .stat-item:not(:last-child){padding-right:40px}
+  .stat-num{
+    font-family:"Fraunces",Georgia,serif;
+    font-size:clamp(34px,4.8vw,58px);
+    font-weight:300;letter-spacing:-.02em;line-height:1;
+  }
+  .stat-num em{color:var(--gold);font-style:normal}
+  .stat-label{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.55;max-width:26ch}
+  @media(max-width:680px){.stats-grid{grid-template-columns:1fr}.stat-item:not(:last-child){padding-right:0}}
+
+  /* ── PLATFORM ANIMATION ──────────────────── */
+  .platform-section{padding:100px 0;border-bottom:1px solid var(--line)}
+  .platform-top{
+    display:grid;grid-template-columns:1fr 1fr;gap:64px;
+    align-items:end;margin-bottom:52px;
+  }
+  .platform-top h2{font-size:clamp(26px,3.4vw,42px);font-weight:300;line-height:1.15;margin-top:16px}
+  .platform-desc p{color:var(--muted);font-size:16px;line-height:1.7}
+  .platform-desc p+p{margin-top:14px}
+  @media(max-width:740px){.platform-top{grid-template-columns:1fr;gap:28px}}
+  #platform-canvas{
+    display:block;width:100%;height:420px;
+    border-radius:16px;border:1px solid var(--line);
+    background:rgba(255,255,255,.012);
+  }
+  @media(max-width:680px){#platform-canvas{height:300px}}
+
+  /* ── MODEL ───────────────────────────────── */
   section.block{padding:108px 0}
   .shead{max-width:50ch}
-  .shead h2{font-size:clamp(28px,3.6vw,42px);font-weight:300;line-height:1.15;margin-top:18px}
+  .shead h2{font-size:clamp(26px,3.4vw,42px);font-weight:300;line-height:1.15;margin-top:18px}
   .shead p{color:var(--muted);margin-top:18px;font-size:17px}
-
-  /* model grid */
   .model{display:grid;grid-template-columns:1fr 1fr;gap:2px 64px;margin-top:64px}
   .item{padding:36px 0;border-top:1px solid var(--line)}
   .item .idx{font-size:13px;color:var(--gold);letter-spacing:.18em;font-weight:500}
-  .item h3{font-size:23px;font-weight:500;margin:16px 0 12px;letter-spacing:-.01em}
+  .item h3{font-size:22px;font-weight:500;margin:16px 0 12px;letter-spacing:-.01em}
   .item p{color:var(--muted);font-size:15.5px;line-height:1.65;max-width:42ch}
   @media(max-width:740px){.model{grid-template-columns:1fr;gap:0}}
 
-  /* principles */
+  /* ── PRINCIPLES ──────────────────────────── */
   .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:60px}
   .principles h4{font-family:"Fraunces",Georgia,serif;font-size:21px;font-weight:400}
   .principles p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.6}
   @media(max-width:740px){.principles{grid-template-columns:1fr;gap:34px}}
 
-  /* contact */
-  .contact{padding:110px 0 120px;text-align:left}
-  .contact h2{font-size:clamp(34px,5vw,60px);font-weight:300;line-height:1.08;max-width:16ch}
+  /* ── CONTACT ─────────────────────────────── */
+  .contact{padding:110px 0 120px}
+  .contact h2{font-size:clamp(32px,5vw,58px);font-weight:300;line-height:1.08;max-width:16ch}
   .contact p{color:var(--muted);max-width:46ch;margin-top:22px;font-size:17px}
-  .mail{display:inline-flex;align-items:baseline;gap:12px;margin-top:38px;font-family:"Fraunces",Georgia,serif;font-size:clamp(22px,3vw,30px);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .25s}
+  .mail{
+    display:inline-flex;align-items:baseline;gap:12px;margin-top:38px;
+    font-family:"Fraunces",Georgia,serif;font-size:clamp(20px,2.8vw,30px);
+    border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .25s;
+  }
   .mail:hover{border-color:var(--gold)}
   .mail .arrow{font-family:"Inter",sans-serif;font-size:18px;color:var(--gold)}
 
-  /* footer */
+  /* ── FOOTER ──────────────────────────────── */
   footer{border-top:1px solid var(--line);padding:40px 0}
   .foot{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
   .foot small{color:var(--faint);font-size:13.5px}
   .foot .logo{font-size:19px}
 
-  /* reveal */
+  /* ── REVEAL ──────────────────────────────── */
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
@@ -127,7 +206,7 @@
   <div class="wrap nav">
     <div class="brand">
       <a class="logo" href="#top"><b>C</b><span class="v">V</span></a>
-      <span>Consolidated Ventures</span>
+      <span class="brand-label">Consolidated Ventures</span>
     </div>
     <nav class="links">
       <a href="#modell">Modell</a>
@@ -139,56 +218,104 @@
 
 <main id="top">
 
+  <!-- HERO -->
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow reveal">Beteiligungsplattform für Serviceunternehmen</p>
-      <h1 class="serif reveal">Serviceunternehmen erwerben, <em>verbessern</em> und skalieren.</h1>
-      <p class="lead reveal">Consolidated Ventures übernimmt Unternehmen in fragmentierten Märkten, entwickelt neue Nachfolger und hebt ihre Abläufe mit KI und Betriebsdaten auf ein neues Niveau.</p>
+      <p class="eyebrow reveal">Nachfolge für Serviceunternehmen</p>
+      <h1 class="serif reveal">Wir kaufen dein Serviceunternehmen — und machen es <em>besser</em>.</h1>
+      <p class="lead reveal">Du hast aufgebaut, was zählt. Wenn du bereit für die Übergabe bist, übernehmen wir — und entwickeln weiter, was du geschaffen hast: mit KI, operativer Exzellenz und einem echten Plan für dein Team.</p>
       <div class="actions reveal">
-        <a href="#kontakt" class="btn btn-primary">Kontakt aufnehmen</a>
-        <a href="#modell" class="btn btn-ghost">Unser Modell <span class="arrow">&rarr;</span></a>
+        <a href="#kontakt" class="btn btn-primary">Gespräch anfragen</a>
+        <a href="#modell" class="btn btn-ghost">Wie wir arbeiten <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </section>
 
+  <!-- MISSION -->
   <section class="mission">
     <div class="wrap">
       <p class="serif reveal">Wir erwerben<span class="dot">.</span> Wir verbessern<span class="dot">.</span> Wir befähigen<span class="dot">.</span> Wir skalieren<span class="dot">.</span></p>
     </div>
   </section>
 
-  <section class="block" id="modell">
+  <!-- STATS -->
+  <section class="stats-band">
     <div class="wrap">
-      <div class="shead">
-        <p class="eyebrow reveal">Das Modell</p>
-        <h2 class="serif reveal">Vier Bereiche, die sich gegenseitig verstärken.</h2>
-        <p class="reveal">Kapital, Betrieb, Talent und Daten greifen ineinander. Bessere Unternehmen schaffen mehr Kapital, mehr Talent und mehr Daten. Der Kreislauf verstärkt sich selbst.</p>
+      <div class="stats-intro">
+        <p class="eyebrow reveal">Die Chance</p>
+        <h2 class="serif reveal">Eine Generation gibt ihr Lebenswerk ab.</h2>
+        <p class="reveal">Der Mittelstand steht vor der größten Nachfolgewelle seiner Geschichte. Tausende Inhaberinnen und Inhaber finden keinen geeigneten Nachfolger — und schließen, obwohl ihr Betrieb weitergeführt werden könnte.</p>
       </div>
-      <div class="model">
-        <div class="item reveal">
-          <div class="idx">01</div>
-          <h3>AI Rollup</h3>
-          <p>Erwerb und Konsolidierung in fragmentierten Märkten. Wir betreiben aktiv und verbessern mit operativer Exzellenz, statt nur zu halten.</p>
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-num"><em>186.000</em></div>
+          <div class="stat-label">Unternehmen stehen allein bis 2030 zur Übergabe — laut Institut für Mittelstandsforschung Bonn.</div>
         </div>
-        <div class="item reveal">
-          <div class="idx">02</div>
-          <h3>Search Fund</h3>
-          <p>Kapital, M&amp;A und Nachfolgelösungen. Eine starke Investorenbasis finanziert Übernahmen und sichert den Generationswechsel im Mittelstand.</p>
+        <div class="stat-item reveal">
+          <div class="stat-num"><em>250.000</em></div>
+          <div class="stat-label">Betriebe könnten ohne Nachfolger schließen, warnt der DIHK. Jahrzehntelang aufgebautes Know-how geht verloren.</div>
         </div>
-        <div class="item reveal">
-          <div class="idx">03</div>
-          <h3>Talent Flywheel</h3>
-          <p>Engineers vor Ort bauen KI-Automatisierung. Parallel bilden wir eine neue Generation Fachkräfte aus, mit Recruiting, das junge Menschen begeistert.</p>
-        </div>
-        <div class="item reveal">
-          <div class="idx">04</div>
-          <h3>Spatial Data</h3>
-          <p>Betriebsdaten direkt aus dem Feld, erfasst über mobile Schnittstellen und Sprache. Sie fließen in Echtzeit zurück in KI und Automatisierung.</p>
+        <div class="stat-item reveal">
+          <div class="stat-num">9 <em>:</em> 4</div>
+          <div class="stat-label">Auf 9 übergabereife Betriebe kommen nur 4 Interessenten. Das Angebot übersteigt die Nachfrage bei weitem.</div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- PLATFORM ANIMATION -->
+  <section class="platform-section">
+    <div class="wrap">
+      <div class="platform-top">
+        <div>
+          <p class="eyebrow reveal">Die Plattform</p>
+          <h2 class="serif reveal">Mehrere Betriebe. Eine Infrastruktur.</h2>
+        </div>
+        <div class="platform-desc reveal">
+          <p>Jedes übernommene Unternehmen wird Teil der CV-Plattform. Statt jedes Mal von Null aufzubauen, teilen alle Mitgliedsbetriebe dieselbe KI-Infrastruktur, denselben Talent-Pool und dieselbe operative Datenbasis.</p>
+          <p>Mit jedem neuen Unternehmen wird die Plattform stärker — und jedes bestehende Unternehmen davon besser.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <canvas id="platform-canvas" aria-hidden="true"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODEL -->
+  <section class="block" id="modell">
+    <div class="wrap">
+      <div class="shead">
+        <p class="eyebrow reveal">Das Modell</p>
+        <h2 class="serif reveal">Vier Bausteine, die sich gegenseitig verstärken.</h2>
+        <p class="reveal">Übernahme, KI, Daten und Talent greifen ineinander. Jedes neue Unternehmen stärkt die Plattform — und die Plattform macht jedes Unternehmen besser.</p>
+      </div>
+      <div class="model">
+        <div class="item reveal">
+          <div class="idx">01</div>
+          <h3>Übernahme & Rollup</h3>
+          <p>Wir kaufen Serviceunternehmen in fragmentierten Märkten — bevorzugt von Inhabern, die ihre Nachfolge regeln wollen. Wir betreiben aktiv und verbessern mit operativer Exzellenz, statt nur zu halten.</p>
+        </div>
+        <div class="item reveal">
+          <div class="idx">02</div>
+          <h3>KI-Transformation</h3>
+          <p>Forward-deployed Engineers bauen maßgeschneiderte KI-Automatisierung direkt im Betrieb. Was heute noch manuell läuft, wird messbar schneller, günstiger und zuverlässiger.</p>
+        </div>
+        <div class="item reveal">
+          <div class="idx">03</div>
+          <h3>Talent Flywheel</h3>
+          <p>Wir bauen einen eigenen Talentkanal: Recruiting, das junge Fachkräfte begeistert — und allen Mitgliedsbetrieben gleichzeitig zugute kommt. Eine Pipeline, die mit der Plattform wächst.</p>
+        </div>
+        <div class="item reveal">
+          <div class="idx">04</div>
+          <h3>Spatial Data</h3>
+          <p>Betriebsdaten direkt aus dem Feld — erfasst über mobile Schnittstellen und Sprache. Sie fließen in Echtzeit in KI, Benchmarking und bessere Entscheidungen zurück.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANSATZ -->
   <section class="block" id="ansatz" style="padding-top:0">
     <div class="wrap">
       <div class="shead">
@@ -202,7 +329,7 @@
         </div>
         <div class="reveal">
           <h4>Operativ</h4>
-          <p>Wir arbeiten im Betrieb, nicht nur im Beirat. Forward-deployed Teams setzen Verbesserungen direkt vor Ort um.</p>
+          <p>Wir arbeiten im Betrieb, nicht nur im Beirat. Forward-deployed Teams setzen Verbesserungen direkt vor Ort um — nicht aus der Distanz.</p>
         </div>
         <div class="reveal">
           <h4>Datengetrieben</h4>
@@ -212,11 +339,12 @@
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section class="contact" id="kontakt">
     <div class="wrap">
       <p class="eyebrow reveal">Kontakt</p>
-      <h2 class="serif reveal">Sprechen wir über die nächste Generation.</h2>
-      <p class="reveal">Für Unternehmerinnen und Unternehmer, die an eine Nachfolge denken, und für Investoren, die langfristig mitbauen wollen.</p>
+      <h2 class="serif reveal">Bereit, dein Unternehmen in gute Hände zu geben?</h2>
+      <p class="reveal">Für Unternehmerinnen und Unternehmer, die an eine Übergabe denken — und für Investoren, die langfristig mitbauen wollen.</p>
       <a class="mail reveal" href="mailto:kontakt@consolidatedventures.com">kontakt@consolidatedventures.com <span class="arrow">&rarr;</span></a>
     </div>
   </section>
@@ -232,68 +360,233 @@
 
 <script>
 (function(){
-  // nav background on scroll
-  var hdr=document.getElementById('hdr');
-  function onScroll(){ hdr.classList.toggle('scrolled', window.scrollY>24); }
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  'use strict';
 
-  // reveal on view
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(function(el,i){
-    el.style.transitionDelay=(Math.min(i,6)*0.05)+'s';
+  /* ── NAV: pill on scroll ── */
+  var hdr = document.getElementById('hdr');
+  function onScroll(){
+    var y = window.scrollY;
+    hdr.classList.toggle('scrolled', y > 24);
+    hdr.classList.toggle('pill', y > 60);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ── REVEAL on view ── */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(function(el, i){
+    el.style.transitionDelay = (Math.min(i, 5) * 0.06) + 's';
     io.observe(el);
   });
 
-  // animated dot field
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var canvas=document.getElementById('bg'), ctx=canvas.getContext('2d');
-  var w,h,dpr,cols,rows,gap=42,t=0,mx=0.5,my=0.4;
-  function resize(){
-    dpr=Math.min(window.devicePixelRatio||1,2);
-    w=window.innerWidth; h=window.innerHeight;
-    canvas.width=w*dpr; canvas.height=h*dpr;
-    canvas.style.width=w+'px'; canvas.style.height=h+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    cols=Math.ceil(w/gap)+2; rows=Math.ceil(h/gap)+2;
+  /* ── BACKGROUND dot field ── */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bgC = document.getElementById('bg'), bgCtx = bgC.getContext('2d');
+  var bw, bh, bdpr, bcols, brows, gap=42, bt=0, mx=0.5, my=0.4;
+  function bgResize(){
+    bdpr = Math.min(window.devicePixelRatio||1, 2);
+    bw = window.innerWidth; bh = window.innerHeight;
+    bgC.width=bw*bdpr; bgC.height=bh*bdpr;
+    bgC.style.width=bw+'px'; bgC.style.height=bh+'px';
+    bgCtx.setTransform(bdpr,0,0,bdpr,0,0);
+    bcols=Math.ceil(bw/gap)+2; brows=Math.ceil(bh/gap)+2;
   }
-  window.addEventListener('resize',resize); resize();
-  window.addEventListener('pointermove',function(e){
-    mx=e.clientX/w; my=e.clientY/h;
-  },{passive:true});
-
-  function draw(){
-    ctx.clearRect(0,0,w,h);
+  window.addEventListener('resize', bgResize); bgResize();
+  window.addEventListener('pointermove', function(e){ mx=e.clientX/bw; my=e.clientY/bh; }, {passive:true});
+  function bgDraw(){
+    bgCtx.clearRect(0,0,bw,bh);
     var px=(mx-0.5)*18, py=(my-0.5)*18;
-    // slow travelling highlight centre
-    var hx=w*(0.5+0.34*Math.cos(t*0.18)), hy=h*(0.42+0.3*Math.sin(t*0.14));
-    for(var i=0;i<cols;i++){
-      for(var j=0;j<rows;j++){
-        var x=i*gap - gap + px*(j/rows*0.6+0.4);
-        var y=j*gap - gap + py*(i/cols*0.6+0.4);
-        var wave=0.5+0.5*Math.sin(t*0.9 + i*0.32 + j*0.42);
+    var hx=bw*(0.5+0.34*Math.cos(bt*0.18)), hy=bh*(0.42+0.3*Math.sin(bt*0.14));
+    for(var i=0;i<bcols;i++){
+      for(var j=0;j<brows;j++){
+        var x=i*gap-gap+px*(j/brows*0.6+0.4);
+        var y=j*gap-gap+py*(i/bcols*0.6+0.4);
+        var wave=0.5+0.5*Math.sin(bt*0.9+i*0.32+j*0.42);
         var dx=x-hx, dy=y-hy;
         var d=Math.sqrt(dx*dx+dy*dy);
-        var glow=Math.max(0,1-d/(Math.max(w,h)*0.46));
-        var a=0.04 + wave*0.05 + glow*glow*0.30;
-        var r=0.8 + glow*1.5;
-        // occasional warm accent dot near the highlight
-        if(glow>0.62 && ((i*7+j*13)%23===0)){
-          ctx.fillStyle='rgba(194,163,107,'+(a*1.1).toFixed(3)+')';
-        }else{
-          ctx.fillStyle='rgba(236,236,240,'+a.toFixed(3)+')';
-        }
-        ctx.beginPath();
-        ctx.arc(x,y,r,0,6.2832);
-        ctx.fill();
+        var glow=Math.max(0,1-d/(Math.max(bw,bh)*0.46));
+        var a=0.04+wave*0.05+glow*glow*0.30;
+        var r=0.8+glow*1.5;
+        bgCtx.fillStyle=(glow>0.62&&(i*7+j*13)%23===0)
+          ?'rgba(194,163,107,'+(a*1.1).toFixed(3)+')'
+          :'rgba(236,236,240,'+a.toFixed(3)+')';
+        bgCtx.beginPath(); bgCtx.arc(x,y,r,0,6.2832); bgCtx.fill();
       }
     }
   }
-  if(reduce){ draw(); }
-  else{
-    (function loop(){ t+=0.016; draw(); requestAnimationFrame(loop); })();
+  if(reduce){ bgDraw(); }
+  else{ (function bgLoop(){ bt+=0.016; bgDraw(); requestAnimationFrame(bgLoop); })(); }
+
+  /* ── PLATFORM ANIMATION ── */
+  var pC = document.getElementById('platform-canvas');
+  if(!pC) return;
+  var pCtx = pC.getContext('2d');
+  var pW, pH, cx, cy, orbitR, pt = 0;
+
+  var COMPANIES = [
+    {name:'Sanitär GmbH'},
+    {name:'Elektro KG'},
+    {name:'Maler & Co.'},
+    {name:'HLS Service'},
+    {name:'Klima Technik'},
+  ];
+  var BENEFITS = ['KI', 'Daten', 'Talent'];
+
+  /* data pulses travelling along spokes */
+  var pulses = [];
+  for(var pi=0; pi<20; pi++){
+    pulses.push({
+      t: Math.random(),
+      idx: Math.floor(Math.random() * COMPANIES.length),
+      toCenter: Math.random() > 0.38
+    });
   }
+
+  function pResize(){
+    var dpr = Math.min(window.devicePixelRatio||1, 2);
+    pW = pC.offsetWidth; pH = pC.offsetHeight;
+    pC.width=pW*dpr; pC.height=pH*dpr;
+    pC.style.width=pW+'px'; pC.style.height=pH+'px';
+    pCtx.setTransform(dpr,0,0,dpr,0,0);
+    cx=pW/2; cy=pH/2;
+    orbitR = Math.min(pW*0.34, pH*0.36, 155);
+  }
+  window.addEventListener('resize', pResize); pResize();
+
+  function pDraw(){
+    pt += 0.006;
+    pCtx.clearRect(0,0,pW,pH);
+
+    /* company positions — slow rotation */
+    var pos = COMPANIES.map(function(c, i){
+      var a = (i/COMPANIES.length)*Math.PI*2 - Math.PI/2 + pt*0.07;
+      return { x: cx+Math.cos(a)*orbitR, y: cy+Math.sin(a)*orbitR, name:c.name };
+    });
+
+    /* faint dashed orbit ring */
+    pCtx.save();
+    pCtx.beginPath();
+    pCtx.arc(cx, cy, orbitR, 0, Math.PI*2);
+    pCtx.strokeStyle='rgba(242,240,234,0.05)';
+    pCtx.lineWidth=1;
+    pCtx.setLineDash([3,9]);
+    pCtx.stroke();
+    pCtx.setLineDash([]);
+    pCtx.restore();
+
+    /* spokes */
+    pos.forEach(function(p){
+      pCtx.beginPath();
+      pCtx.moveTo(p.x, p.y);
+      pCtx.lineTo(cx, cy);
+      pCtx.strokeStyle='rgba(242,240,234,0.07)';
+      pCtx.lineWidth=1;
+      pCtx.stroke();
+    });
+
+    /* pulses */
+    pulses.forEach(function(pulse){
+      pulse.t += 0.0045;
+      if(pulse.t >= 1){
+        pulse.t = 0;
+        pulse.idx = Math.floor(Math.random()*COMPANIES.length);
+        pulse.toCenter = Math.random() > 0.38;
+      }
+      var p = pos[pulse.idx];
+      var prog = pulse.toCenter ? pulse.t : 1-pulse.t;
+      var px2 = p.x+(cx-p.x)*prog;
+      var py2 = p.y+(cy-p.y)*prog;
+      var alpha = 0.75*Math.sin(pulse.t*Math.PI);
+      pCtx.beginPath();
+      pCtx.arc(px2, py2, pulse.toCenter ? 2 : 2.6, 0, Math.PI*2);
+      pCtx.fillStyle = pulse.toCenter
+        ? 'rgba(242,240,234,'+( alpha*0.75).toFixed(3)+')'
+        : 'rgba(194,163,107,'+(alpha).toFixed(3)+')';
+      pCtx.fill();
+    });
+
+    /* company nodes */
+    pos.forEach(function(p, i){
+      var breathe = 0.5+0.5*Math.sin(pt*1.3+i*1.26);
+
+      /* outer ring */
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, 21, 0, Math.PI*2);
+      pCtx.strokeStyle='rgba(242,240,234,'+(0.1+breathe*0.1)+')';
+      pCtx.lineWidth=1;
+      pCtx.stroke();
+
+      /* inner dot */
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, 5.5, 0, Math.PI*2);
+      pCtx.fillStyle='rgba(242,240,234,0.65)';
+      pCtx.fill();
+
+      /* label — offset outward from center */
+      var ddx=p.x-cx, ddy=p.y-cy;
+      var dlen=Math.sqrt(ddx*ddx+ddy*ddy)||1;
+      var lx=p.x+(ddx/dlen)*34, ly=p.y+(ddy/dlen)*34;
+      pCtx.font='12px Inter,-apple-system,sans-serif';
+      pCtx.fillStyle='rgba(146,146,155,0.8)';
+      pCtx.textAlign='center';
+      pCtx.textBaseline='middle';
+      pCtx.fillText(p.name, lx, ly);
+    });
+
+    /* inner benefit nodes — rotate opposite direction */
+    var benR = orbitR * 0.40;
+    BENEFITS.forEach(function(label, i){
+      var a = (i/BENEFITS.length)*Math.PI*2 - Math.PI/2 - pt*0.11;
+      var bx=cx+Math.cos(a)*benR, by=cy+Math.sin(a)*benR;
+      var pulse2=0.5+0.5*Math.sin(pt*1.6+i*2.09);
+
+      pCtx.beginPath();
+      pCtx.arc(bx, by, 15, 0, Math.PI*2);
+      pCtx.strokeStyle='rgba(194,163,107,'+(0.18+pulse2*0.28)+')';
+      pCtx.lineWidth=1;
+      pCtx.stroke();
+
+      pCtx.font='500 10px Inter,sans-serif';
+      pCtx.fillStyle='rgba(194,163,107,'+(0.55+pulse2*0.35)+')';
+      pCtx.textAlign='center';
+      pCtx.textBaseline='middle';
+      pCtx.fillText(label, bx, by);
+    });
+
+    /* center CV hub */
+    var hubP = 0.5+0.5*Math.sin(pt*1.9);
+
+    /* glow */
+    var g = pCtx.createRadialGradient(cx,cy,0,cx,cy,58+hubP*14);
+    g.addColorStop(0, 'rgba(194,163,107,'+(0.16+hubP*0.14)+')');
+    g.addColorStop(1, 'rgba(194,163,107,0)');
+    pCtx.beginPath(); pCtx.arc(cx,cy,58+hubP*14,0,Math.PI*2);
+    pCtx.fillStyle=g; pCtx.fill();
+
+    /* hub ring */
+    pCtx.beginPath(); pCtx.arc(cx,cy,28,0,Math.PI*2);
+    pCtx.strokeStyle='rgba(194,163,107,'+(0.3+hubP*0.5)+')';
+    pCtx.lineWidth=1.5; pCtx.stroke();
+
+    /* hub fill */
+    pCtx.beginPath(); pCtx.arc(cx,cy,25,0,Math.PI*2);
+    pCtx.fillStyle='rgba(10,10,12,0.85)'; pCtx.fill();
+
+    /* CV label */
+    pCtx.font='500 14px "Fraunces",Georgia,serif';
+    pCtx.fillStyle='rgba(194,163,107,0.95)';
+    pCtx.textAlign='center'; pCtx.textBaseline='middle';
+    pCtx.fillText('CV', cx, cy);
+
+    requestAnimationFrame(pDraw);
+  }
+
+  if(!reduce){ pDraw(); }
+
 })();
 </script>
 </body>
