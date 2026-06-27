@@ -104,10 +104,10 @@
   @media(max-width:680px){.links a:not(.nav-cta){display:none}}
 
   /* ── HERO ────────────────────────────────── */
-  .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 90px}
-  .hero h1{font-size:clamp(38px,6.2vw,76px);line-height:1.04;font-weight:300;max-width:15ch;margin:26px 0 0}
+  .hero{min-height:100vh;display:flex;align-items:flex-start;padding:180px 0 90px;text-align:left}
+  .hero h1{font-size:clamp(38px,6.2vw,76px);line-height:1.04;font-weight:300;max-width:16ch;margin:26px 0 0}
   .hero h1 em{font-style:italic;color:var(--gold)}
-  .hero p.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:52ch;margin:30px 0 0;font-weight:400}
+  .hero p.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:50ch;margin:30px 0 0;font-weight:400}
   .hero .actions{display:flex;gap:18px;align-items:center;margin-top:40px;flex-wrap:wrap}
   .btn{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500;padding:14px 26px;border-radius:999px;transition:transform .2s,background .2s,border-color .2s}
   .btn-primary{background:var(--fg);color:#0a0a0c}
@@ -150,12 +150,34 @@
   @media(max-width:580px){.sector-grid{grid-template-columns:repeat(2,1fr)}}
   .sector{
     padding:28px 24px 26px;border:1px solid var(--line);margin:-1px 0 0 -1px;
-    transition:background .2s,border-color .2s;cursor:default;
+    transition:background .25s,border-color .25s;cursor:default;
   }
-  .sector:hover{background:rgba(255,255,255,.028);border-color:rgba(255,255,255,.16)}
+  .sector.inactive{opacity:.22;pointer-events:none}
+  .sector.active{cursor:pointer}
+  .sector.active:hover{background:rgba(255,255,255,.038);border-color:rgba(255,255,255,.22)}
   .sector-icon{font-size:22px;line-height:1;margin-bottom:14px}
   .sector h4{font-size:14.5px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
-  .sector p{font-size:13px;color:var(--muted);line-height:1.5}
+  .sector > p{font-size:13px;color:var(--muted);line-height:1.5}
+  /* hover-expand inside active sector */
+  .sector-expand{
+    max-height:0;overflow:hidden;opacity:0;
+    transition:max-height .48s ease,opacity .3s ease;
+  }
+  .sector.active:hover .sector-expand{max-height:360px;opacity:1}
+  .expand-intro{font-size:13.5px;color:var(--fg);margin-top:20px;margin-bottom:10px;font-weight:500}
+  .criteria{list-style:none;margin-bottom:14px}
+  .criteria li{
+    display:flex;gap:10px;font-size:12.5px;color:var(--muted);
+    padding:6px 0;border-top:1px solid rgba(255,255,255,.055);
+  }
+  .criteria li b{color:var(--gold);font-weight:500;min-width:64px;flex-shrink:0}
+  .expand-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:500;color:var(--gold);
+    border-bottom:1px solid rgba(194,163,107,.35);padding-bottom:3px;
+    transition:gap .2s,border-color .2s;
+  }
+  .expand-cta:hover{gap:12px;border-color:var(--gold)}
 
   /* ── SEARCHER PROGRAM ────────────────────── */
   .searcher{padding:100px 0;border-bottom:1px solid var(--line)}
@@ -207,12 +229,12 @@
   .shead{max-width:50ch}
   .shead h2{font-size:clamp(26px,3.4vw,42px);font-weight:300;line-height:1.15;margin-top:18px}
   .shead p{color:var(--muted);margin-top:18px;font-size:17px}
-  .model{display:grid;grid-template-columns:1fr 1fr;gap:2px 64px;margin-top:64px}
+  .model{display:grid;grid-template-columns:repeat(3,1fr);gap:2px 48px;margin-top:64px}
   .item{padding:36px 0;border-top:1px solid var(--line)}
   .item .idx{font-size:13px;color:var(--gold);letter-spacing:.18em;font-weight:500}
   .item h3{font-size:22px;font-weight:500;margin:16px 0 12px;letter-spacing:-.01em}
-  .item p{color:var(--muted);font-size:15.5px;line-height:1.65;max-width:42ch}
-  @media(max-width:740px){.model{grid-template-columns:1fr;gap:0}}
+  .item p{color:var(--muted);font-size:15.5px;line-height:1.65}
+  @media(max-width:860px){.model{grid-template-columns:1fr;gap:0}}
 
   /* ── PRINCIPLES ──────────────────────────── */
   .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:60px}
@@ -269,8 +291,8 @@
   <section class="hero">
     <div class="wrap">
       <p class="eyebrow reveal">Nachfolge für Serviceunternehmen</p>
-      <h1 class="serif reveal">Wir kaufen dein Serviceunternehmen — und machen es <em>besser</em>.</h1>
-      <p class="lead reveal">Du hast aufgebaut, was zählt. Wenn du bereit für die Übergabe bist, übernehmen wir — und entwickeln weiter, was du geschaffen hast: mit KI, operativer Exzellenz und einem echten Plan für dein Team.</p>
+      <h1 class="serif reveal">Wir übernehmen dein Serviceunternehmen. Und machen es <em>besser</em>.</h1>
+      <p class="lead reveal">Du hast aufgebaut, was zählt. Wenn du bereit für die Übergabe bist, übernehmen wir. Und entwickeln weiter, was du geschaffen hast: mit KI, operativer Exzellenz und einem echten Plan für dein Team.</p>
       <div class="actions reveal">
         <a href="#kontakt" class="btn btn-primary">Gespräch anfragen</a>
         <a href="#modell" class="btn btn-ghost">Wie wir arbeiten <span class="arrow">&rarr;</span></a>
@@ -291,12 +313,12 @@
       <div class="stats-intro">
         <p class="eyebrow reveal">Die Chance</p>
         <h2 class="serif reveal">Eine Generation gibt ihr Lebenswerk ab.</h2>
-        <p class="reveal">Der Mittelstand steht vor der größten Nachfolgewelle seiner Geschichte. Tausende Inhaberinnen und Inhaber finden keinen geeigneten Nachfolger — und schließen, obwohl ihr Betrieb weitergeführt werden könnte.</p>
+        <p class="reveal">Der Mittelstand steht vor der größten Nachfolgewelle seiner Geschichte. Tausende Inhaberinnen und Inhaber finden keinen geeigneten Nachfolger. Betriebe schließen, obwohl sie weitergeführt werden könnten.</p>
       </div>
       <div class="stats-grid">
         <div class="stat-item reveal">
           <div class="stat-num"><em>186.000</em></div>
-          <div class="stat-label">Unternehmen stehen allein bis 2030 zur Übergabe — laut Institut für Mittelstandsforschung Bonn.</div>
+          <div class="stat-label">Unternehmen stehen allein bis 2030 zur Übergabe,laut Institut für Mittelstandsforschung Bonn.</div>
         </div>
         <div class="stat-item reveal">
           <div class="stat-num"><em>250.000</em></div>
@@ -318,45 +340,57 @@
           <p class="eyebrow reveal">Branchen</p>
           <h2 class="serif reveal">Wo wir kaufen.</h2>
         </div>
-        <p class="reveal">Wir fokussieren uns auf Serviceunternehmen mit wiederkehrenden Aufträgen, lokaler Kundenbasis und echtem operativem Know-how — genau die Betriebe, die von KI und Plattformeffekten am stärksten profitieren.</p>
+        <p class="reveal">Wir fokussieren uns auf Serviceunternehmen mit wiederkehrenden Aufträgen, lokaler Kundenbasis und echtem operativem Know-how. Genau die Betriebe, die von KI und Plattformeffekten am stärksten profitieren.</p>
       </div>
       <div class="sector-grid">
-        <div class="sector reveal">
+        <div class="sector inactive reveal">
           <div class="sector-icon">🔧</div>
           <h4>Sanitär, Heizung & Klima</h4>
           <p>SHK-Betriebe mit Wartungsverträgen und lokalem Kundenstamm</p>
         </div>
-        <div class="sector reveal">
+        <div class="sector inactive reveal">
           <div class="sector-icon">⚡</div>
           <h4>Elektrotechnik</h4>
           <p>Elektrobetriebe, Gebäudetechnik, Photovoltaik-Montage</p>
         </div>
-        <div class="sector reveal">
+        <div class="sector active reveal">
           <div class="sector-icon">🌿</div>
           <h4>Garten & Landschaft</h4>
           <p>Gartenbaubetriebe mit Pflegeverträgen und Saisongeschäft</p>
+          <div class="sector-expand">
+            <p class="expand-intro">Du hast einen Betrieb in diesem Bereich?</p>
+            <ul class="criteria">
+              <li><b>EBITDA</b>ab ca. €100k, Marge mind. 8%</li>
+              <li><b>Umsatz</b>€500k bis €5 Mio.</li>
+              <li><b>Team</b>3 bis 30 Mitarbeiter</li>
+              <li><b>Kunden</b>wiederkehrend, regional, kein Klumpenrisiko</li>
+              <li><b>Verkauf</b>Nachfolge bevorzugt, kein Notverkauf</li>
+              <li><b>Region</b>definiertes Einzugsgebiet, lokale Marktposition</li>
+            </ul>
+            <a href="#kontakt" class="expand-cta">Schreib uns <span>&rarr;</span></a>
+          </div>
         </div>
-        <div class="sector reveal">
+        <div class="sector inactive reveal">
           <div class="sector-icon">🪵</div>
           <h4>Schreinerei & Tischler</h4>
           <p>Handwerksbetriebe für Innenausbau, Möbel und Fenster</p>
         </div>
-        <div class="sector reveal">
+        <div class="sector inactive reveal">
           <div class="sector-icon">🎨</div>
           <h4>Maler & Stuckateure</h4>
           <p>Malerbetriebe mit Gewerbe- und Privatkunden</p>
         </div>
-        <div class="sector reveal">
+        <div class="sector inactive reveal">
           <div class="sector-icon">🏠</div>
           <h4>Dach & Fassade</h4>
           <p>Dachdecker, Fassadenbauer, Fensterbauer</p>
         </div>
-        <div class="sector reveal">
+        <div class="sector inactive reveal">
           <div class="sector-icon">❄️</div>
           <h4>Kälte & Klimatechnik</h4>
           <p>Klimaanlagen-Service, Kältetechnik, Lüftungsbau</p>
         </div>
-        <div class="sector reveal">
+        <div class="sector inactive reveal">
           <div class="sector-icon">🧹</div>
           <h4>Gebäudereinigung</h4>
           <p>Facility-Dienstleister mit Gewerbe-Daueraufträgen</p>
@@ -372,8 +406,8 @@
         <div class="searcher-left">
           <p class="eyebrow reveal">Für Searcher</p>
           <h2 class="serif reveal">Du willst ein Unternehmen kaufen. Wir finanzieren dich.</h2>
-          <p class="reveal">Wenn du einen guten Betrieb gefunden hast und ihn führen willst, musst du das nicht alleine stemmen. Bewirb dich als Searcher, verschmelze den Betrieb mit der CV-Gruppe — und profitiere von Tag eins von unserer KI-Infrastruktur, dem Talentkanal und dem operativen Netzwerk.</p>
-          <p class="reveal" style="margin-top:14px">Du operierst, wir stehen dahinter. Ähnlich wie ein Franchise — aber ohne starres System, dafür mit echter Plattform.</p>
+          <p class="reveal">Wenn du einen guten Betrieb gefunden hast und ihn führen willst, musst du das nicht alleine stemmen. Bewirb dich als Searcher, verschmelze den Betrieb mit der CV-Gruppe. Von Tag eins profitierst du von unserer KI-Infrastruktur, dem Talentkanal und dem operativen Netzwerk.</p>
+          <p class="reveal" style="margin-top:14px">Du operierst, wir stehen dahinter. Ähnlich wie ein Franchise, aber ohne starres System. Dafür mit echter Plattform.</p>
           <a href="#kontakt" class="cta-link reveal">Als Searcher bewerben <span>&rarr;</span></a>
         </div>
         <div class="steps reveal">
@@ -395,14 +429,14 @@
             <div class="step-num">03</div>
             <div>
               <h5>Finanzierung & Übernahme</h5>
-              <p>CV stellt das Kapital bereit. Wir strukturieren gemeinsam den Deal — fair für alle Seiten, mit Beteiligung für dich als Operator.</p>
+              <p>CV stellt das Kapital bereit. Wir strukturieren gemeinsam den Deal,fair für alle Seiten, mit Beteiligung für dich als Operator.</p>
             </div>
           </div>
           <div class="step">
             <div class="step-num">04</div>
             <div>
               <h5>Plattform-Onboarding</h5>
-              <p>Dein Betrieb tritt der CV-Gruppe bei: KI-Tools, Talent-Pool, Betriebsdaten-Infrastruktur — sofort verfügbar, kein Aufbau von Null.</p>
+              <p>Dein Betrieb tritt der CV-Gruppe bei: KI-Tools, Talent-Pool, Betriebsdaten-Infrastruktur,sofort verfügbar, kein Aufbau von Null.</p>
             </div>
           </div>
         </div>
@@ -416,11 +450,11 @@
       <div class="platform-top">
         <div>
           <p class="eyebrow reveal">Die Plattform</p>
-          <h2 class="serif reveal">Mehrere Betriebe. Eine Infrastruktur.</h2>
+          <h2 class="serif reveal">Mehrere Betriebe.<br>Eine Infrastruktur.</h2>
         </div>
         <div class="platform-desc reveal">
           <p>Jedes übernommene Unternehmen wird Teil der CV-Plattform. Statt jedes Mal von Null aufzubauen, teilen alle Mitgliedsbetriebe dieselbe KI-Infrastruktur, denselben Talent-Pool und dieselbe operative Datenbasis.</p>
-          <p>Mit jedem neuen Unternehmen wird die Plattform stärker — und jedes bestehende Unternehmen davon besser.</p>
+          <p>Mit jedem neuen Unternehmen wird die Plattform stärker. Und jedes bestehende Unternehmen davon besser.</p>
         </div>
       </div>
       <div class="reveal">
@@ -434,29 +468,24 @@
     <div class="wrap">
       <div class="shead">
         <p class="eyebrow reveal">Das Modell</p>
-        <h2 class="serif reveal">Vier Bausteine, die sich gegenseitig verstärken.</h2>
-        <p class="reveal">Übernahme, KI, Daten und Talent greifen ineinander. Jedes neue Unternehmen stärkt die Plattform — und die Plattform macht jedes Unternehmen besser.</p>
+        <h2 class="serif reveal">Drei Bausteine, die sich gegenseitig verstärken.</h2>
+        <p class="reveal">Übernahme, Talent und Daten greifen ineinander. Jedes neue Unternehmen stärkt die Plattform. Die Plattform macht jedes Unternehmen besser.</p>
       </div>
       <div class="model">
         <div class="item reveal">
           <div class="idx">01</div>
-          <h3>Übernahme & Rollup</h3>
-          <p>Wir kaufen Serviceunternehmen in fragmentierten Märkten — bevorzugt von Inhabern, die ihre Nachfolge regeln wollen. Wir betreiben aktiv und verbessern mit operativer Exzellenz, statt nur zu halten.</p>
+          <h3>AI Rollup</h3>
+          <p>Wir kaufen Serviceunternehmen in fragmentierten Märkten, bevorzugt von Inhabern, die ihre Nachfolge regeln wollen. Jede Übernahme bringt KI-Automatisierung, operative Exzellenz und Plattformzugang mit.</p>
         </div>
         <div class="item reveal">
           <div class="idx">02</div>
-          <h3>KI-Transformation</h3>
-          <p>Forward-deployed Engineers bauen maßgeschneiderte KI-Automatisierung direkt im Betrieb. Was heute noch manuell läuft, wird messbar schneller, günstiger und zuverlässiger.</p>
+          <h3>Talent Flywheel</h3>
+          <p>Wir bauen einen eigenen Talentkanal: Recruiting, das junge Fachkräfte begeistert und allen Mitgliedsbetrieben zugute kommt. Eine Pipeline, die mit der Plattform wächst.</p>
         </div>
         <div class="item reveal">
           <div class="idx">03</div>
-          <h3>Talent Flywheel</h3>
-          <p>Wir bauen einen eigenen Talentkanal: Recruiting, das junge Fachkräfte begeistert — und allen Mitgliedsbetrieben gleichzeitig zugute kommt. Eine Pipeline, die mit der Plattform wächst.</p>
-        </div>
-        <div class="item reveal">
-          <div class="idx">04</div>
           <h3>Spatial Data</h3>
-          <p>Betriebsdaten direkt aus dem Feld — erfasst über mobile Schnittstellen und Sprache. Sie fließen in Echtzeit in KI, Benchmarking und bessere Entscheidungen zurück.</p>
+          <p>Betriebsdaten direkt aus dem Feld, erfasst über mobile Schnittstellen und Sprache. Sie fließen in Echtzeit in KI, Benchmarking und bessere Entscheidungen zurück.</p>
         </div>
       </div>
     </div>
@@ -467,7 +496,7 @@
     <div class="wrap">
       <div class="shead">
         <p class="eyebrow reveal">Unser Ansatz</p>
-        <h2 class="serif reveal">Wie wir Unternehmen entwickeln.</h2>
+        <h2 class="serif reveal">Wie wir kaufen und entwickeln.</h2>
       </div>
       <div class="principles">
         <div class="reveal">
@@ -476,11 +505,48 @@
         </div>
         <div class="reveal">
           <h4>Operativ</h4>
-          <p>Wir arbeiten im Betrieb, nicht nur im Beirat. Forward-deployed Teams setzen Verbesserungen direkt vor Ort um — nicht aus der Distanz.</p>
+          <p>Wir arbeiten im Betrieb, nicht nur im Beirat. Forward-deployed Teams setzen Verbesserungen direkt vor Ort um, nicht aus der Distanz.</p>
         </div>
         <div class="reveal">
           <h4>Datengetrieben</h4>
           <p>Entscheidungen auf Basis echter Betriebsdaten. Was im Feld passiert, wird messbar, vergleichbar und automatisierbar.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:72px">
+        <p class="eyebrow reveal">Was wir suchen</p>
+        <p class="reveal" style="margin-top:16px;color:var(--muted);font-size:16px;max-width:54ch">Wir kaufen keine Problemfälle. Wir kaufen solide Betriebe von Inhabern, die ihr Lebenswerk in gute Hände geben wollen. Das sind unsere Kriterien:</p>
+        <div class="model" style="margin-top:40px">
+          <div class="item reveal">
+            <div class="idx">EBITDA</div>
+            <h3>Ab ca. €100k</h3>
+            <p>Nachhaltige Ertragskraft, Marge mind. 8%. Kein Turnaround, kein Notverkauf.</p>
+          </div>
+          <div class="item reveal">
+            <div class="idx">UMSATZ</div>
+            <h3>€500k bis €5 Mio.</h3>
+            <p>Betriebe mit echtem Geschäftsbetrieb, etabliertem Kundenstamm und stabilen Auftragseingängen.</p>
+          </div>
+          <div class="item reveal">
+            <div class="idx">TEAM</div>
+            <h3>3 bis 30 Mitarbeiter</h3>
+            <p>Ein funktionierendes Team, das nicht allein am Inhaber hängt. Fachkräfte mit handwerklicher Qualifikation bevorzugt.</p>
+          </div>
+          <div class="item reveal">
+            <div class="idx">KUNDEN</div>
+            <h3>Wiederkehrend & regional</h3>
+            <p>Wartungsverträge, Stammkunden, kein Klumpenrisiko. Ein klar definiertes Einzugsgebiet mit lokaler Marktposition.</p>
+          </div>
+          <div class="item reveal">
+            <div class="idx">VERKAUF</div>
+            <h3>Nachfolge</h3>
+            <p>Renteneintritt, Neuorientierung, Nachfolgemangel. Kein Insolvenzfall. Der Inhaber will das Unternehmen in guten Händen wissen.</p>
+          </div>
+          <div class="item reveal">
+            <div class="idx">REGION</div>
+            <h3>Fokussiert</h3>
+            <p>Wir starten regional und wachsen von dort. Einzugsgebiete mit Dichte und Potenzial für Plattformeffekte bevorzugt.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -491,7 +557,7 @@
     <div class="wrap">
       <p class="eyebrow reveal">Kontakt</p>
       <h2 class="serif reveal">Bereit, dein Unternehmen in gute Hände zu geben?</h2>
-      <p class="reveal">Für Unternehmerinnen und Unternehmer, die an eine Übergabe denken — und für Investoren, die langfristig mitbauen wollen.</p>
+      <p class="reveal">Für Unternehmerinnen und Unternehmer, die an eine Übergabe denken. Und für Investoren, die langfristig mitbauen wollen.</p>
       <a class="mail reveal" href="mailto:kontakt@consolidatedventures.com">kontakt@consolidatedventures.com <span class="arrow">&rarr;</span></a>
     </div>
   </section>
@@ -608,7 +674,7 @@
     pt += 0.006;
     pCtx.clearRect(0,0,pW,pH);
 
-    /* company positions — slow rotation */
+    /* company positions,slow rotation */
     var pos = COMPANIES.map(function(c, i){
       var a = (i/COMPANIES.length)*Math.PI*2 - Math.PI/2 + pt*0.07;
       return { x: cx+Math.cos(a)*orbitR, y: cy+Math.sin(a)*orbitR, name:c.name };
@@ -673,7 +739,7 @@
       pCtx.fillStyle='rgba(242,240,234,0.65)';
       pCtx.fill();
 
-      /* label — offset outward from center */
+      /* label,offset outward from center */
       var ddx=p.x-cx, ddy=p.y-cy;
       var dlen=Math.sqrt(ddx*ddx+ddy*ddy)||1;
       var lx=p.x+(ddx/dlen)*34, ly=p.y+(ddy/dlen)*34;
@@ -684,7 +750,7 @@
       pCtx.fillText(p.name, lx, ly);
     });
 
-    /* inner benefit nodes — rotate opposite direction */
+    /* inner benefit nodes,rotate opposite direction */
     var benR = orbitR * 0.40;
     BENEFITS.forEach(function(label, i){
       var a = (i/BENEFITS.length)*Math.PI*2 - Math.PI/2 - pt*0.11;
