@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Search Fund – Consolidated Ventures</title>
+<meta name="description" content="Du willst einen Betrieb übernehmen? Consolidated Ventures gibt dir das Kapital dafür. Bewirb dich als Searcher." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0c'/%3E%3Ctext x='6' y='23' font-family='Georgia,serif' font-size='18' fill='%23f2f0ea'%3EC%3C/text%3E%3Ctext x='17' y='23' font-family='Georgia,serif' font-size='18' fill='%23c2a36b'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0a0a0c;--bg2:#0f0f12;--fg:#f2f0ea;--muted:#8e8e97;--faint:#505058;
+    --line:rgba(255,255,255,.08);--gold:#c2a36b;--maxw:1080px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;font-size:17px;line-height:1.6;letter-spacing:.01em;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  ::selection{background:rgba(194,163,107,.28)}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:"Fraunces",Georgia,serif;font-weight:400;letter-spacing:-.01em}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+  #bg{position:fixed;inset:0;z-index:0;display:block}
+  .veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(110% 70% at 14% 6%,rgba(194,163,107,.06),transparent 52%),
+      linear-gradient(180deg,rgba(10,10,12,.15) 0%,rgba(10,10,12,.5) 60%,var(--bg) 100%);}
+  main{position:relative;z-index:2}
+
+  /* NAV */
+  header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;z-index:10;border:1px solid transparent;border-radius:0;backdrop-filter:saturate(140%) blur(10px);transition:top .5s cubic-bezier(.2,.6,.2,1),width .5s cubic-bezier(.2,.6,.2,1),border-radius .5s cubic-bezier(.2,.6,.2,1),background .35s,border-color .35s;}
+  header.pill{top:14px;width:min(560px,calc(100% - 32px));border-radius:999px;background:rgba(10,10,12,.92);border-color:rgba(255,255,255,.13);backdrop-filter:saturate(180%) blur(22px);}
+  header.scrolled:not(.pill){background:rgba(10,10,12,.7);border-bottom-color:var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;transition:height .5s cubic-bezier(.2,.6,.2,1)}
+  header.pill .nav{height:52px}
+  header.pill .wrap{max-width:none;padding:0 20px}
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .logo{font-family:"Fraunces",Georgia,serif;font-size:23px;letter-spacing:.02em}
+  .logo b{font-weight:500}.logo .v{color:var(--gold)}
+  .brand-label{font-size:13px;color:var(--muted);letter-spacing:.04em;overflow:hidden;max-width:200px;white-space:nowrap;transition:max-width .4s cubic-bezier(.2,.6,.2,1),opacity .3s}
+  header.pill .brand-label{max-width:0;opacity:0}
+  .links{display:flex;gap:30px;align-items:center;transition:gap .5s cubic-bezier(.2,.6,.2,1)}
+  header.pill .links{gap:18px}
+  .links a{font-size:14px;color:var(--muted);transition:color .2s}
+  .links a:hover,.links a.active{color:var(--fg)}
+  .nav-cta{color:var(--fg)!important;border:1px solid var(--line);padding:8px 16px;border-radius:999px;transition:border-color .2s,background .2s,padding .5s cubic-bezier(.2,.6,.2,1)}
+  header.pill .nav-cta{padding:6px 14px}
+  .nav-cta:hover{border-color:rgba(194,163,107,.5);background:rgba(194,163,107,.06)}
+  @media(max-width:700px){.links a:not(.nav-cta){display:none}}
+
+  /* HERO */
+  .hero{min-height:100vh;padding:196px 0 100px}
+  .hero h1{font-size:clamp(34px,5.4vw,68px);line-height:1.05;font-weight:300;max-width:17ch;margin:24px 0 0}
+  .hero h1 em{font-style:italic;color:var(--gold)}
+  .hero p.lead{font-size:clamp(16px,1.8vw,19px);color:var(--muted);max-width:48ch;margin:28px 0 0;font-weight:400;line-height:1.7}
+  .hero .actions{display:flex;gap:16px;align-items:center;margin-top:38px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;padding:13px 24px;border-radius:999px;transition:transform .2s,background .2s,border-color .2s}
+  .btn-primary{background:var(--fg);color:#0a0a0c}
+  .btn-primary:hover{transform:translateY(-1px);background:#fff}
+  .btn-ghost{color:var(--muted);border:1px solid var(--line);padding:12px 22px}
+  .btn-ghost:hover{color:var(--fg);border-color:rgba(255,255,255,.2)}
+
+  /* SECTIONS */
+  .section{padding:96px 0;border-top:1px solid var(--line)}
+  .section.alt{background:linear-gradient(180deg,rgba(255,255,255,.018) 0%,rgba(255,255,255,.008) 100%)}
+  .section h2{font-size:clamp(24px,3.2vw,40px);font-weight:300;line-height:1.15;margin-top:14px;max-width:20ch}
+  .section-intro{max-width:52ch;margin-bottom:56px}
+  .section-intro p{color:var(--muted);margin-top:14px;font-size:16px;line-height:1.7}
+
+  /* PROFILE CARDS */
+  .profiles{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:52px}
+  @media(max-width:680px){.profiles{grid-template-columns:1fr}}
+  .profile{padding:36px 32px;border:1px solid var(--line);margin:-1px 0 0 -1px;background:rgba(255,255,255,.012)}
+  .profile-tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:18px}
+  .profile h3{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:400;margin-bottom:14px}
+  .profile p{color:var(--muted);font-size:15px;line-height:1.7}
+  .profile-detail{margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+  .profile-detail div{display:flex;gap:10px;font-size:13.5px;color:var(--muted);margin-top:8px}
+  .profile-detail b{color:var(--fg);font-weight:500;min-width:100px}
+
+  /* QUAL GRID */
+  .qual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
+  @media(max-width:780px){.qual-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.qual-grid{grid-template-columns:1fr}}
+  .qual{padding:28px 24px;border:1px solid var(--line);margin:-1px 0 0 -1px}
+  .qual-icon{font-size:20px;margin-bottom:14px}
+  .qual h4{font-size:15px;font-weight:500;margin-bottom:8px}
+  .qual p{color:var(--muted);font-size:13.5px;line-height:1.6}
+
+  /* CRITERIA */
+  .crit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:52px}
+  @media(max-width:780px){.crit-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.crit-grid{grid-template-columns:1fr}}
+  .crit{padding:24px 22px;border:1px solid var(--line);margin:-1px 0 0 -1px;background:rgba(255,255,255,.012)}
+  .crit-key{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:8px}
+  .crit-val{font-size:15px;font-weight:500;margin-bottom:5px}
+  .crit-desc{font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* STEPS */
+  .steps{margin-top:52px}
+  .step{display:grid;grid-template-columns:52px 1fr;gap:0 20px;padding:24px 0;border-top:1px solid var(--line);align-items:start}
+  .step:last-child{border-bottom:1px solid var(--line)}
+  .step-num{font-family:"Fraunces",Georgia,serif;font-size:13px;color:var(--gold);letter-spacing:.12em;padding-top:2px}
+  .step h5{font-size:16px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
+  .step p{color:var(--muted);font-size:14.5px;line-height:1.65}
+
+  /* CONTACT */
+  .contact{padding:100px 0 120px}
+  .contact h2{font-size:clamp(28px,4.4vw,52px);font-weight:300;line-height:1.1;max-width:16ch}
+  .contact p{color:var(--muted);max-width:44ch;margin-top:18px;font-size:16px}
+  .mail{display:inline-flex;align-items:baseline;gap:12px;margin-top:34px;font-family:"Fraunces",Georgia,serif;font-size:clamp(18px,2.4vw,26px);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .25s}
+  .mail:hover{border-color:var(--gold)}
+  .mail .arrow{font-family:"Inter",sans-serif;font-size:16px;color:var(--gold)}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:40px 0}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .foot small{color:var(--faint);font-size:13px}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .85s cubic-bezier(.2,.6,.2,1),transform .85s cubic-bezier(.2,.6,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil"></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <div class="brand">
+      <a class="logo" href="index.html"><b>C</b><span class="v">V</span></a>
+      <span class="brand-label">Consolidated Ventures</span>
+    </div>
+    <nav class="links">
+      <a href="index.html#modell">Modell</a>
+      <a href="index.html#branchen">Branchen</a>
+      <a href="searcher.html" class="active">Search Fund</a>
+      <a href="#kontakt" class="nav-cta">Bewerben</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow reveal">Search Fund</p>
+      <h1 class="serif reveal">Du willst einen Betrieb übernehmen. Wir geben dir das Kapital.</h1>
+      <p class="lead reveal">Wenn du einen geeigneten Betrieb gefunden hast und ihn führen willst, musst du das nicht alleine stemmen. Wir finanzieren die Übernahme. Der Betrieb tritt der CV-Gruppe bei. Du operierst.</p>
+      <div class="actions reveal">
+        <a href="#kontakt" class="btn btn-primary">Bewerbung einreichen</a>
+        <a href="#kriterien" class="btn btn-ghost">Was wir suchen &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEN WIR SUCHEN -->
+  <section class="section alt">
+    <div class="wrap">
+      <div class="section-intro">
+        <p class="eyebrow reveal">Searcher Profile</p>
+        <h2 class="serif reveal">Wen wir suchen.</h2>
+        <p class="reveal">Wir suchen Personen, die Unternehmer sein wollen, nicht nur Manager. Mit echtem Branchen-Hintergrund oder betriebswirtschaftlicher Ausbildung. Und mit dem Antrieb, einen Betrieb langfristig zu führen und zu entwickeln.</p>
+      </div>
+      <div class="profiles">
+        <div class="profile reveal">
+          <div class="profile-tag">Profil A</div>
+          <h3>Der Handwerker</h3>
+          <p>Lukas hat eine Ausbildung zum Gärtner gemacht, danach einige Jahre in einem mittelgroßen Betrieb gearbeitet und kennt das Geschäft von innen. Er will nicht ewig angestellt bleiben, sondern selbst führen. Ein Betrieb, den er kennt, steht zur Übergabe. Ihm fehlt nur das Kapital.</p>
+          <div class="profile-detail">
+            <div><b>Hintergrund</b>Berufsausbildung im Zielbetrieb</div>
+            <div><b>Stärke</b>Fachkompetenz, Teamvertrauen, regionale Verwurzelung</div>
+            <div><b>CV-Beitrag</b>Operativer Kern, Qualitätssicherung</div>
+          </div>
+        </div>
+        <div class="profile reveal">
+          <div class="profile-tag">Profil B</div>
+          <h3>Der Quereinsteiger</h3>
+          <p>Sara hat Betriebswirtschaft studiert oder einen MBA abgeschlossen und danach in Beratung oder Unternehmensführung gearbeitet. Sie will den nächsten Schritt machen: ein eigenes Unternehmen. Nicht als Gründung von Null, sondern durch eine gezielte Übernahme in einem Markt mit echtem Rückenwind.</p>
+          <div class="profile-detail">
+            <div><b>Hintergrund</b>BWL / MBA, Führungserfahrung</div>
+            <div><b>Stärke</b>Zahlen, Struktur, Skalierungswille</div>
+            <div><b>CV-Beitrag</b>Betriebsführung, KI-Integration, Wachstum</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUALIFIKATIONEN -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-intro">
+        <p class="eyebrow reveal">Qualifikation</p>
+        <h2 class="serif reveal">Was du mitbringen solltest.</h2>
+        <p class="reveal">Wir investieren in Menschen, nicht nur in Deals. Das bedeutet: Wir schauen genauso genau auf dich wie auf das Unternehmen, das du übernehmen willst.</p>
+      </div>
+      <div class="qual-grid">
+        <div class="qual reveal">
+          <div class="qual-icon">🎓</div>
+          <h4>Ausbildung oder Studium</h4>
+          <p>Handwerkliche Ausbildung im Zielbereich oder betriebswirtschaftliches Studium (BWL, MBA oder vergleichbar). Beides ist gleichwertig.</p>
+        </div>
+        <div class="qual reveal">
+          <div class="qual-icon">🏗️</div>
+          <h4>Branchenerfahrung</h4>
+          <p>Du kennst den Sektor, den du kaufen willst. Entweder durch direkte Berufserfahrung oder durch intensive Vorbereitung mit Beleg.</p>
+        </div>
+        <div class="qual reveal">
+          <div class="qual-icon">🧭</div>
+          <h4>Führungswille</h4>
+          <p>Du willst nicht verwalten, sondern gestalten. Nachweisbare Führungserfahrung, auch in kleinen Teams, ist ein klares Plus.</p>
+        </div>
+        <div class="qual reveal">
+          <div class="qual-icon">📍</div>
+          <h4>Regionale Bindung</h4>
+          <p>Du bist bereit, im Betrieb vor Ort zu arbeiten und dich langfristig in der Region zu verankern. Fernführung ist nicht unser Modell.</p>
+        </div>
+        <div class="qual reveal">
+          <div class="qual-icon">⏱️</div>
+          <h4>Vollzeiteinsatz</h4>
+          <p>Die Suche und spätere Führung des Betriebs ist kein Nebenprojekt. Wir erwarten und finanzieren den vollen Fokus.</p>
+        </div>
+        <div class="qual reveal">
+          <div class="qual-icon">🤝</div>
+          <h4>Plattform-Commitment</h4>
+          <p>Der übernommene Betrieb tritt der CV-Gruppe bei. Das ist keine Einschränkung, sondern ein Vorteil: KI, Talent, Daten vom ersten Tag.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNTERNEHMENS-KRITERIEN -->
+  <section class="section alt" id="kriterien">
+    <div class="wrap">
+      <div class="section-intro">
+        <p class="eyebrow reveal">Das Unternehmen</p>
+        <h2 class="serif reveal">Was der Betrieb mitbringen muss.</h2>
+        <p class="reveal">Das Unternehmen, das du übernehmen willst, muss unsere Kriterien erfüllen. Wir kaufen keine Problemfälle. Wir kaufen solide Betriebe, die übergeben werden wollen.</p>
+      </div>
+      <div class="crit-grid">
+        <div class="crit reveal">
+          <div class="crit-key">EBITDA</div>
+          <div class="crit-val">Ab ca. €100k</div>
+          <div class="crit-desc">Nachhaltige Ertragskraft, Marge mind. 8%. Kein Turnaround.</div>
+        </div>
+        <div class="crit reveal">
+          <div class="crit-key">Umsatz</div>
+          <div class="crit-val">€500k bis €5 Mio.</div>
+          <div class="crit-desc">Etablierter Betrieb mit stabilen Auftragseingängen.</div>
+        </div>
+        <div class="crit reveal">
+          <div class="crit-key">Team</div>
+          <div class="crit-val">3 bis 30 Mitarbeiter</div>
+          <div class="crit-desc">Qualifizierte Fachkräfte. Der Betrieb funktioniert ohne den Inhaber.</div>
+        </div>
+        <div class="crit reveal">
+          <div class="crit-key">Kunden</div>
+          <div class="crit-val">Wiederkehrend & regional</div>
+          <div class="crit-desc">Wartungsverträge, Stammkunden, kein Klumpenrisiko.</div>
+        </div>
+        <div class="crit reveal">
+          <div class="crit-key">Verkaufsgrund</div>
+          <div class="crit-val">Nachfolge</div>
+          <div class="crit-desc">Renteneintritt, Neuorientierung oder Nachfolgemangel. Kein Notfall.</div>
+        </div>
+        <div class="crit reveal">
+          <div class="crit-key">Branche</div>
+          <div class="crit-val">CV-Fokussektoren</div>
+          <div class="crit-desc">Garten & Landschaft, SHK, Elektro, Maler, Schreiner oder ähnliches Handwerk.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROZESS -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-intro">
+        <p class="eyebrow reveal">Ablauf</p>
+        <h2 class="serif reveal">Wie es funktioniert.</h2>
+        <p class="reveal">Von der ersten Bewerbung bis zur Übernahme begleiten wir dich. Das dauert typischerweise zwischen drei und zwölf Monaten.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div>
+            <h5>Bewerbung einreichen</h5>
+            <p>Schick uns eine kurze Vorstellung von dir, deinem Hintergrund und, wenn schon vorhanden, dem Betrieb, den du kaufen willst. Wir melden uns innerhalb von zwei Wochen.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <div>
+            <h5>Gespräch und Matching</h5>
+            <p>Wir lernen dich kennen. Wir prüfen, ob Profil, Zielbranche und Vorhaben zu unserer Plattform passen. Bei Fit starten wir gemeinsam die Suche oder prüfen deinen gefundenen Betrieb.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <div>
+            <h5>Due Diligence</h5>
+            <p>Unser Ops-Team unterstützt bei der Prüfung: Zahlen, Kunden, Team, Marktposition. Du lernst den Betrieb, wir lernen beide kennen.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">04</div>
+          <div>
+            <h5>Finanzierung und Übernahme</h5>
+            <p>CV stellt das Kapital. Wir strukturieren den Deal gemeinsam, fair für alle Seiten. Du erhältst eine echte Beteiligung und trägst Verantwortung als Operator.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">05</div>
+          <div>
+            <h5>Plattform-Onboarding</h5>
+            <p>Ab Tag eins: KI-Infrastruktur, Talent-Pipeline, operative Datenbasis. Du führst, wir unterstützen. Der Betrieb wächst mit der Gruppe.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="kontakt">
+    <div class="wrap">
+      <p class="eyebrow reveal">Bewerben</p>
+      <h2 class="serif reveal">Bereit anzufangen?</h2>
+      <p class="reveal">Schreib uns, wer du bist, was dich antreibt und welchen Betrieb du im Blick hast. Auch wenn du noch keinen konkreten Deal hast, lohnt sich die Unterhaltung.</p>
+      <a class="mail reveal" href="mailto:kontakt@consolidatedventures.com">kontakt@consolidatedventures.com <span class="arrow">&rarr;</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="index.html"><b>C</b><span class="v">V</span></a>
+    <small>© 2026 Consolidated Ventures. Alle Rechte vorbehalten.</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var hdr=document.getElementById('hdr');
+function onScroll(){var y=window.scrollY;hdr.classList.toggle('scrolled',y>24);hdr.classList.toggle('pill',y>60);}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionDelay=(Math.min(i%5,4)*0.07)+'s';io.observe(el);});
+var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var bgC=document.getElementById('bg'),bgCtx=bgC.getContext('2d');
+var bw,bh,bdpr,bt=0,mx=0.5,my=0.4,gap=44,bcols,brows;
+function bgR(){bdpr=Math.min(window.devicePixelRatio||1,2);bw=window.innerWidth;bh=window.innerHeight;bgC.width=bw*bdpr;bgC.height=bh*bdpr;bgC.style.width=bw+'px';bgC.style.height=bh+'px';bgCtx.setTransform(bdpr,0,0,bdpr,0,0);bcols=Math.ceil(bw/gap)+2;brows=Math.ceil(bh/gap)+2;}
+window.addEventListener('resize',bgR);bgR();
+window.addEventListener('pointermove',function(e){mx=e.clientX/bw;my=e.clientY/bh;},{passive:true});
+function bgD(){bgCtx.clearRect(0,0,bw,bh);var px=(mx-0.5)*16,py=(my-0.5)*16;var hx=bw*(0.5+0.3*Math.cos(bt*0.16)),hy=bh*(0.44+0.28*Math.sin(bt*0.13));for(var i=0;i<bcols;i++){for(var j=0;j<brows;j++){var x=i*gap-gap+px*(j/brows*0.6+0.4);var y=j*gap-gap+py*(i/bcols*0.6+0.4);var wave=0.5+0.5*Math.sin(bt*0.8+i*0.3+j*0.4);var dx=x-hx,dy=y-hy;var d=Math.sqrt(dx*dx+dy*dy);var glow=Math.max(0,1-d/(Math.max(bw,bh)*0.44));var a=0.035+wave*0.045+glow*glow*0.28;var r=0.75+glow*1.4;bgCtx.fillStyle=(glow>0.6&&(i*7+j*13)%23===0)?'rgba(194,163,107,'+(a*1.1).toFixed(3)+')':'rgba(230,228,224,'+a.toFixed(3)+')';bgCtx.beginPath();bgCtx.arc(x,y,r,0,6.2832);bgCtx.fill();}}}
+if(reduce){bgD();}else{(function l(){bt+=0.016;bgD();requestAnimationFrame(l);})();}
+})();
+</script>
+</body>
+</html>
