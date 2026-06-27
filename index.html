@@ -139,6 +139,52 @@
   .stat-label{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.55;max-width:26ch}
   @media(max-width:680px){.stats-grid{grid-template-columns:1fr}.stat-item:not(:last-child){padding-right:0}}
 
+  /* ── USE CASES ───────────────────────────── */
+  .usecases{padding:96px 0;border-bottom:1px solid var(--line)}
+  .usecases-top{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:end;margin-bottom:56px}
+  .usecases-top h2{font-size:clamp(26px,3.4vw,42px);font-weight:300;line-height:1.15;margin-top:16px}
+  .usecases-top p{color:var(--muted);font-size:16px;line-height:1.7}
+  @media(max-width:740px){.usecases-top{grid-template-columns:1fr;gap:24px}}
+  .sector-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+  @media(max-width:860px){.sector-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:580px){.sector-grid{grid-template-columns:repeat(2,1fr)}}
+  .sector{
+    padding:28px 24px 26px;border:1px solid var(--line);margin:-1px 0 0 -1px;
+    transition:background .2s,border-color .2s;cursor:default;
+  }
+  .sector:hover{background:rgba(255,255,255,.028);border-color:rgba(255,255,255,.16)}
+  .sector-icon{font-size:22px;line-height:1;margin-bottom:14px}
+  .sector h4{font-size:14.5px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
+  .sector p{font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* ── SEARCHER PROGRAM ────────────────────── */
+  .searcher{padding:100px 0;border-bottom:1px solid var(--line)}
+  .searcher-inner{
+    display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:start;
+  }
+  @media(max-width:820px){.searcher-inner{grid-template-columns:1fr;gap:40px}}
+  .searcher h2{font-size:clamp(26px,3.4vw,42px);font-weight:300;line-height:1.15;margin-top:16px}
+  .searcher-left p{color:var(--muted);font-size:16px;line-height:1.7;margin-top:18px}
+  .searcher-left .cta-link{
+    display:inline-flex;align-items:center;gap:10px;
+    margin-top:32px;font-size:15px;font-weight:500;
+    color:var(--gold);border-bottom:1px solid rgba(194,163,107,.3);
+    padding-bottom:4px;transition:border-color .2s,gap .2s;
+  }
+  .searcher-left .cta-link:hover{border-color:var(--gold);gap:14px}
+  .steps{display:flex;flex-direction:column;gap:0}
+  .step{
+    display:grid;grid-template-columns:44px 1fr;gap:0 20px;
+    padding:22px 0;border-top:1px solid var(--line);align-items:start;
+  }
+  .step:last-child{border-bottom:1px solid var(--line)}
+  .step-num{
+    font-family:"Fraunces",Georgia,serif;font-size:13px;
+    color:var(--gold);letter-spacing:.1em;padding-top:2px;
+  }
+  .step h5{font-size:15px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
+  .step p{color:var(--muted);font-size:14px;line-height:1.6}
+
   /* ── PLATFORM ANIMATION ──────────────────── */
   .platform-section{padding:100px 0;border-bottom:1px solid var(--line)}
   .platform-top{
@@ -210,6 +256,7 @@
     </div>
     <nav class="links">
       <a href="#modell">Modell</a>
+      <a href="#searcher">Searcher</a>
       <a href="#ansatz">Ansatz</a>
       <a href="#kontakt" class="nav-cta">Kontakt</a>
     </nav>
@@ -258,6 +305,106 @@
         <div class="stat-item reveal">
           <div class="stat-num">9 <em>:</em> 4</div>
           <div class="stat-label">Auf 9 übergabereife Betriebe kommen nur 4 Interessenten. Das Angebot übersteigt die Nachfrage bei weitem.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="usecases">
+    <div class="wrap">
+      <div class="usecases-top">
+        <div>
+          <p class="eyebrow reveal">Branchen</p>
+          <h2 class="serif reveal">Wo wir kaufen.</h2>
+        </div>
+        <p class="reveal">Wir fokussieren uns auf Serviceunternehmen mit wiederkehrenden Aufträgen, lokaler Kundenbasis und echtem operativem Know-how — genau die Betriebe, die von KI und Plattformeffekten am stärksten profitieren.</p>
+      </div>
+      <div class="sector-grid">
+        <div class="sector reveal">
+          <div class="sector-icon">🔧</div>
+          <h4>Sanitär, Heizung & Klima</h4>
+          <p>SHK-Betriebe mit Wartungsverträgen und lokalem Kundenstamm</p>
+        </div>
+        <div class="sector reveal">
+          <div class="sector-icon">⚡</div>
+          <h4>Elektrotechnik</h4>
+          <p>Elektrobetriebe, Gebäudetechnik, Photovoltaik-Montage</p>
+        </div>
+        <div class="sector reveal">
+          <div class="sector-icon">🌿</div>
+          <h4>Garten & Landschaft</h4>
+          <p>Gartenbaubetriebe mit Pflegeverträgen und Saisongeschäft</p>
+        </div>
+        <div class="sector reveal">
+          <div class="sector-icon">🪵</div>
+          <h4>Schreinerei & Tischler</h4>
+          <p>Handwerksbetriebe für Innenausbau, Möbel und Fenster</p>
+        </div>
+        <div class="sector reveal">
+          <div class="sector-icon">🎨</div>
+          <h4>Maler & Stuckateure</h4>
+          <p>Malerbetriebe mit Gewerbe- und Privatkunden</p>
+        </div>
+        <div class="sector reveal">
+          <div class="sector-icon">🏠</div>
+          <h4>Dach & Fassade</h4>
+          <p>Dachdecker, Fassadenbauer, Fensterbauer</p>
+        </div>
+        <div class="sector reveal">
+          <div class="sector-icon">❄️</div>
+          <h4>Kälte & Klimatechnik</h4>
+          <p>Klimaanlagen-Service, Kältetechnik, Lüftungsbau</p>
+        </div>
+        <div class="sector reveal">
+          <div class="sector-icon">🧹</div>
+          <h4>Gebäudereinigung</h4>
+          <p>Facility-Dienstleister mit Gewerbe-Daueraufträgen</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCHER PROGRAM -->
+  <section class="searcher" id="searcher">
+    <div class="wrap">
+      <div class="searcher-inner">
+        <div class="searcher-left">
+          <p class="eyebrow reveal">Für Searcher</p>
+          <h2 class="serif reveal">Du willst ein Unternehmen kaufen. Wir finanzieren dich.</h2>
+          <p class="reveal">Wenn du einen guten Betrieb gefunden hast und ihn führen willst, musst du das nicht alleine stemmen. Bewirb dich als Searcher, verschmelze den Betrieb mit der CV-Gruppe — und profitiere von Tag eins von unserer KI-Infrastruktur, dem Talentkanal und dem operativen Netzwerk.</p>
+          <p class="reveal" style="margin-top:14px">Du operierst, wir stehen dahinter. Ähnlich wie ein Franchise — aber ohne starres System, dafür mit echter Plattform.</p>
+          <a href="#kontakt" class="cta-link reveal">Als Searcher bewerben <span>&rarr;</span></a>
+        </div>
+        <div class="steps reveal">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div>
+              <h5>Deal einreichen</h5>
+              <p>Du hast einen Betrieb im Blick? Schick uns die Grunddaten. Wir prüfen Markt, Zahlen und strategischen Fit innerhalb von zwei Wochen.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div>
+              <h5>Gemeinsame Due Diligence</h5>
+              <p>Unser Ops-Team unterstützt dich bei der Prüfung. Du lernst den Betrieb, wir lernen dich kennen.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div>
+              <h5>Finanzierung & Übernahme</h5>
+              <p>CV stellt das Kapital bereit. Wir strukturieren gemeinsam den Deal — fair für alle Seiten, mit Beteiligung für dich als Operator.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div>
+              <h5>Plattform-Onboarding</h5>
+              <p>Dein Betrieb tritt der CV-Gruppe bei: KI-Tools, Talent-Pool, Betriebsdaten-Infrastruktur — sofort verfügbar, kein Aufbau von Null.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
